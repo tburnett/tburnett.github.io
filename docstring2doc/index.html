@@ -13078,11 +13078,12 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p style="text-align:center;"> <H1>Producing documents in Jupyter</H1></p>
-<p style="text-align: right;">2020-05-20 16:44</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
+<p style="text-align: right;">2020-05-21 13:42</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
 <h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction">&#182;</a></h2><h3 id="Purpose">Purpose<a class="anchor-link" href="#Purpose">&#182;</a></h3><p>This package addresses a long-term frustration I've had with using Jupyterlab for my
 analysis. That is, how do I combine the output of a notebook, entries in my logbook, and
 the python code to produce a document to present to collaborators, or translate to an actual 
-publishable document? Jupyter notebooks are tempting since they have markdown cells that
+publishable document? And finally, how to maintain some sort of version control with inputs to such
+a document from several sources? Jupyter notebooks are tempting since they have markdown cells that
 provide for nice formatting, even including LaTex. And of course the figures are nicely 
 inserted in the output. But I wanted to have the text reflect the calcualations, that is,
 be as dynamic as the generation of figures. And I certainly want the appearance of the
@@ -13092,7 +13093,7 @@ output following a code cell. Especially, it interprets markdown text in the sam
 for markdown cells. Thus why not generate markdown text as a part of the processing that
 produces figures? A further key was that the "docstring" of a python function is easily
 accessible to via Python's inspection. A final key was the <code>str.format</code> function that will
-replace curly-braketed fields in a string with representations of contained variables.</p>
+replace curly-bracketed fields in a string with representations of contained variables.</p>
 <p>Thus I, in effect, document a function that does some calculation, generating various figures,
 with that function's docstring. A further evolution of this was to have the function reflect
 a <em>section</em> of the final document. And to encapsulate the whole thing into a Python class,
@@ -13103,7 +13104,7 @@ crutial for producing the document, but the Jupyter environment is essential for
 analysis and generating the associated documentation. The modular section-oriented structure
 allows invoking each function independently, with the resulting document section displayed
 immediatly following the code cell.</p>
-<h3 id="About-this-document">About this document<a class="anchor-link" href="#About-this-document">&#182;</a></h3><p>This document is iself a demonstration! It was generated using member functions
+<h3 id="About-this-document">About this document<a class="anchor-link" href="#About-this-document">&#182;</a></h3><p>This document is itself a demonstration! It was generated using member functions
 of the class <code>docstring2doc.Document</code>, which inherits from <code>docstring2doc.Publisher</code>.
 Each such function represents a section in the document.</p>
 <h2 id="2.-Docstring-Formatting">2. Docstring Formatting<a class="anchor-link" href="#2.-Docstring-Formatting">&#182;</a></h2><p>There are three elements in such a function: the docstring, written in 
@@ -13123,7 +13124,7 @@ ax.set(xlabel='$x$', ylabel='$x^2$', title=f'figure {fig1.number}')
 fig1.caption='''Caption for Fig. 1, which
         shows $x^2$ vs. $x$.'''</code></pre>
 <p>produces:</p>
-<figure> <img src="figs/Document/fig_1.png" alt="Figure 1 at figs/Document/fig_1.png"> <figcaption>Caption for Fig. 1, which
+<figure> <img src="figs/fig_1.png" alt="Figure 1 at figs/fig_1.png"> <figcaption>Caption for Fig. 1, which
                 shows $x^2$ vs. $x$.    
                .</figcaption></figure><p>The display processing replaces the <code>fig1</code> reference in a copy of <code>locals()</code>
 with a object that implements a <code>__str__()</code> function returning an HTML reference 
@@ -13239,13 +13240,19 @@ generate a numbered section. The numbers are sequential as called by default, bu
 by setting <code>self.section_number</code> in the code.</p>
 <h3 id="Other-text">Other text<a class="anchor-link" href="#Other-text">&#182;</a></h3><p>Text not fitting into the section structure can be added with a call to the member function
 <code>markdown</code>, providing a text string.</p>
-<h2 id="4.-Saving-the-document">4. Saving the document<a class="anchor-link" href="#4.-Saving-the-document">&#182;</a></h2><h3 id="HTML">HTML<a class="anchor-link" href="#HTML">&#182;</a></h3><p>If the parameter <code>html_file</code> is set, the current document, corresponding to a sequence of calls to 
-section-generating functions, will be processed by <code>nbconvert</code>. The resuling HTML file will be in 
-a folder determined by <code>doc_path</code>. In that, figures will be found in <code>figs</code>.</p>
-<h3 id="PDF">PDF<a class="anchor-link" href="#PDF">&#182;</a></h3><p>The nbformat option for this seems to fail. A better solution, in the works, is to use the
+<h2 id="4.-File-structure">4. File structure<a class="anchor-link" href="#4.-File-structure">&#182;</a></h2><h2 id="Web">Web<a class="anchor-link" href="#Web">&#182;</a></h2><p>The resulting Web document has two components: the HTML file with all the text and formatting, and, in the
+same folder, a  subfolder "figs" with the figures, which are included via the HTML e.g., <code>&lt;img src="figs/fig_1.png"/&gt;</code>.</p>
+<p>The use case motivating this was to develop the document in Jupyter, and easiiy save it as a 
+Web document. In order for the figures to be displayed in the notebook, the figures must be 
+saved in its folder.</p>
+<p>Creating the Web document then entails creating (using nbconvert) the HTML file in the destination
+document folder, and copying the figure folder into it.</p>
+<h3 id="PDF?">PDF?<a class="anchor-link" href="#PDF?">&#182;</a></h3><p>The nbformat option for this seems to fail. A better solution, in the works, is to use the
 utility <a href="https://github.com/betatim/notebook-as-pdf">notebook-as-pdf</a>. A problem with it, however, 
 is that it depends on a callable version chrome, which misses some dependencies, not possible to add without 
 root permission.</p>
+<hr>
+<p>Document saved to "/nfs/farm/g/glast/u/burnett/git/tburnett.github.io/docstring2doc"'</p>
 
 </div>
 </div>
