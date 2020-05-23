@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>Notebook</title>
+<title>Producing documents in Jupyter</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13078,7 +13078,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><H1>Producing documents in Jupyter</H1></p>
-<p style="text-align: right;">2020-05-23 04:39</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
+<p style="text-align: right;">2020-05-23 08:40</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
 <h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction">&#182;</a></h2><h3 id="Purpose">Purpose<a class="anchor-link" href="#Purpose">&#182;</a></h3><p>This package addresses a long-term frustration I've had with using Jupyterlab for my
 analysis. That is, how do I combine the output of a notebook, entries in my logbook, and
 the python code to produce a document to present to collaborators, or translate to an actual 
@@ -13257,9 +13257,9 @@ Web document. In order for the figures to be displayed in the notebook, the figu
 saved in its folder.</p>
 <p>Creating the Web document then entails creating (using nbconvert) the HTML file in the destination
 document folder, and copying the figure folder into it.</p>
-<h3 id="PDF?">PDF?<a class="anchor-link" href="#PDF?">&#182;</a></h3><p>The nbformat option for this seems to fail. A better solution, in the works, is to use code that I 
+<h3 id="PDF?">PDF?<a class="anchor-link" href="#PDF?">&#182;</a></h3><p>Using nbconvert for this seems to fail. A better solution, in the works, is to use code that I 
 found in <a href="https://github.com/betatim/notebook-as-pdf"><code>notebook-as-pdf</code></a>, which uses a headless
-chrome to render the HTML to a PDF file.</p>
+chrome, relying on (<code>pyppeteer</code>)[<a href="https://pypi.org/project/pyppeteer/">https://pypi.org/project/pyppeteer/</a>] to render the HTML to a PDF file.</p>
 <h2 id="5.-Workflow">5. Workflow<a class="anchor-link" href="#5.-Workflow">&#182;</a></h2><p>This facility has transformed the way I generate analysis code. The objective is to <em>minimize</em> notebooks. 
 I now regard them as temporary, but essential, sratch pads for developing code. Such a process requires 
 creating plots showing the results, validating assumptions about the data and analysis methods. 
@@ -13294,7 +13294,7 @@ doc=document.Document(
     doc_folder='/nfs/farm/g/glast/u/burnett/git/tburnett.github.io/jupydoc',)
 doc()</code></pre>
 <hr>
-<p>Document saved to "/nfs/farm/g/glast/u/burnett/git/tburnett.github.io/jupydoc"'</p>
+<p>Document "Producing documents in Jupyter" saved to "/nfs/farm/g/glast/u/burnett/git/tburnett.github.io/jupydoc"'</p>
 
 </div>
 </div>
