@@ -13078,7 +13078,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><H1>Producing documents in Jupyter</H1></p>
-<p style="text-align: right;">2020-05-23 08:40</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
+<p style="text-align: right;">2020-05-24 12:13</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
 <h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction">&#182;</a></h2><h3 id="Purpose">Purpose<a class="anchor-link" href="#Purpose">&#182;</a></h3><p>This package addresses a long-term frustration I've had with using Jupyterlab for my
 analysis. That is, how do I combine the output of a notebook, entries in my logbook, and
 the python code to produce a document to present to collaborators, or translate to an actual 
@@ -13115,7 +13115,7 @@ analysis and generating the associated documentation. The modular section-orient
 allows invoking each function independently, with the resulting document section displayed
 immediatly following the code cell.</p>
 <h3 id="About-this-document">About this document<a class="anchor-link" href="#About-this-document">&#182;</a></h3><p>This document is itself a demonstration! It was generated using member functions
-of the class <code>docstring2doc.Document</code>, which inherits from <code>docstring2doc.Publisher</code>.
+of the class <code>jupydoc.Document</code>, which inherits from <code>jupydoc.Publisher</code>.
 Each such function represents a section in the document.</p>
 <h2 id="2.-Docstring-Formatting">2. Docstring Formatting<a class="anchor-link" href="#2.-Docstring-Formatting">&#182;</a></h2><p>There are three elements in such a function: the docstring, written in 
 markdown, containing 
@@ -13260,7 +13260,30 @@ document folder, and copying the figure folder into it.</p>
 <h3 id="PDF?">PDF?<a class="anchor-link" href="#PDF?">&#182;</a></h3><p>Using nbconvert for this seems to fail. A better solution, in the works, is to use code that I 
 found in <a href="https://github.com/betatim/notebook-as-pdf"><code>notebook-as-pdf</code></a>, which uses a headless
 chrome, relying on (<code>pyppeteer</code>)[<a href="https://pypi.org/project/pyppeteer/">https://pypi.org/project/pyppeteer/</a>] to render the HTML to a PDF file.</p>
-<h2 id="5.-Workflow">5. Workflow<a class="anchor-link" href="#5.-Workflow">&#182;</a></h2><p>This facility has transformed the way I generate analysis code. The objective is to <em>minimize</em> notebooks. 
+<h2 id="5.-Other-Formatting-options">5. Other Formatting options<a class="anchor-link" href="#5.-Other-Formatting-options">&#182;</a></h2><p>Markdown text is designed to be readable and easy to compose, a huge difference from
+the formal HTML, to which it is translated. One can of course insert HTML 
+directly into the text, of course compromising the readabily, and requiring HTML knowledge. 
+Jupydoc processing allows inserting predefined strings when processing the docstringtext, 
+which represents a  compromise.</p>
+<p>Variable names in the docstring text come from three sources, each one updating the previous
+set.</p>
+<ol>
+<li>Built-in. A class variable <code>predefined</code>. This is set to the useful values discussed here,
+but of course the user may update or replace it.</li>
+<li>The local variables available to the code in the function, locally defined or defined 
+in the argument list, especially "self".</li>
+<li>Varables defined in the call to <code>publishme</code>, collected with Python's <code>**kwargs</code> mechanism. </li>
+</ol>
+<h4 id="Indenting">Indenting<a class="anchor-link" href="#Indenting">&#182;</a></h4><p>Indenting a paragraph is not directly possible with markdown. But we predefine:</p>
+<p>{indent}
+: <code>&lt;p style="margin-left: 5%"&gt;</code> &mdash;the margin is predefined, easily changed by the user</p>
+<p>{endp}
+: <code>&lt;/p&gt;</code> &mdash; Since it represents the end of a paragraph.</p>
+<p>Demonstration:</p>
+<p style="margin-left: 5%">
+This paragrah is indented 5%. It was preceded by {indent} and followed by {endl}.
+<br>To start a new line line this, in this, or any other paragraph, in insert &lt;br&gt;. 
+</p><h2 id="6.-Workflow">6. Workflow<a class="anchor-link" href="#6.-Workflow">&#182;</a></h2><p>This facility has transformed the way I generate analysis code. The objective is to <em>minimize</em> notebooks. 
 I now regard them as temporary, but essential, sratch pads for developing code. Such a process requires 
 creating plots showing the results, validating assumptions about the data and analysis methods. 
 So there are two coding elements in this procedure: the actual analysis, and the creation of associated plots.</p>
