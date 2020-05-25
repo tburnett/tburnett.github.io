@@ -13078,7 +13078,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><H1>Producing documents in Jupyter</H1></p>
-<p style="text-align: right;">2020-05-24 12:13</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
+<p style="text-align: right;">2020-05-25 06:09</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
 <h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction">&#182;</a></h2><h3 id="Purpose">Purpose<a class="anchor-link" href="#Purpose">&#182;</a></h3><p>This package addresses a long-term frustration I've had with using Jupyterlab for my
 analysis. That is, how do I combine the output of a notebook, entries in my logbook, and
 the python code to produce a document to present to collaborators, or translate to an actual 
@@ -13119,7 +13119,7 @@ of the class <code>jupydoc.Document</code>, which inherits from <code>jupydoc.Pu
 Each such function represents a section in the document.</p>
 <h2 id="2.-Docstring-Formatting">2. Docstring Formatting<a class="anchor-link" href="#2.-Docstring-Formatting">&#182;</a></h2><p>There are three elements in such a function: the docstring, written in 
 markdown, containing 
-local names in curly-brackets, the code, and a final call <code>self.publishme(section_name)</code>.<br>
+variable names in curly-brackets, the code, and a final call <code>self.publishme(section_name)</code>.<br>
 Unlike a formatted string, entries in curly brackets cannot be expressions.</p>
 <h4 id="Local-variables">Local variables<a class="anchor-link" href="#Local-variables">&#182;</a></h4><p>Any variable, say from an expression in the code <code>q=1/3</code>, can be interpreted
 with <code>"q={q:.3f}"</code>, resulting in<br>
@@ -13165,64 +13165,52 @@ in the text as <code>{fig1.number}</code>.</p>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th></th>
       <th>x</th>
       <th>xx</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
       <td>0.000</td>
       <td>0.000</td>
     </tr>
     <tr>
-      <th>1</th>
       <td>0.204</td>
       <td>0.042</td>
     </tr>
     <tr>
-      <th>2</th>
       <td>0.408</td>
       <td>0.167</td>
     </tr>
     <tr>
-      <th>3</th>
       <td>0.612</td>
       <td>0.375</td>
     </tr>
     <tr>
-      <th>4</th>
       <td>0.816</td>
       <td>0.666</td>
     </tr>
     <tr>
-      <th>...</th>
       <td>...</td>
       <td>...</td>
     </tr>
     <tr>
-      <th>45</th>
       <td>9.184</td>
       <td>84.340</td>
     </tr>
     <tr>
-      <th>46</th>
       <td>9.388</td>
       <td>88.130</td>
     </tr>
     <tr>
-      <th>47</th>
       <td>9.592</td>
       <td>92.003</td>
     </tr>
     <tr>
-      <th>48</th>
       <td>9.796</td>
       <td>95.960</td>
     </tr>
     <tr>
-      <th>49</th>
       <td>10.000</td>
       <td>100.000</td>
     </tr>
@@ -13271,18 +13259,19 @@ set.</p>
 <li>Built-in. A class variable <code>predefined</code>. This is set to the useful values discussed here,
 but of course the user may update or replace it.</li>
 <li>The local variables available to the code in the function, locally defined or defined 
-in the argument list, especially "self".</li>
-<li>Varables defined in the call to <code>publishme</code>, collected with Python's <code>**kwargs</code> mechanism. </li>
+in the argument list, especially "self". (So predifined variables are also <code>self.predefined.var</code>)</li>
+<li>Varables defined in the call to <code>publishme</code>, collected with Python's <code>**kwargs</code> mechanism. 
+These may override any of the previoius.</li>
 </ol>
 <h4 id="Indenting">Indenting<a class="anchor-link" href="#Indenting">&#182;</a></h4><p>Indenting a paragraph is not directly possible with markdown. But we predefine:</p>
-<p>{indent}
-: <code>&lt;p style="margin-left: 5%"&gt;</code> &mdash;the margin is predefined, easily changed by the user</p>
-<p>{endp}
-: <code>&lt;/p&gt;</code> &mdash; Since it represents the end of a paragraph.</p>
+<ul>
+<li>{indent}: <code>&lt;p style="margin-left: 5%"&gt;</code> &mdash;the margin is predefined, easily changed by the user</li>
+<li>{endp}: <code>&lt;/p&gt;</code> &mdash; Since it represents the end of a paragraph.</li>
+</ul>
 <p>Demonstration:</p>
 <p style="margin-left: 5%">
 This paragrah is indented 5%. It was preceded by {indent} and followed by {endl}.
-<br>To start a new line line this, in this, or any other paragraph, in insert &lt;br&gt;. 
+<br>To start a new line line this, in this, or any other paragraph, insert "&lt;br&gt;". 
 </p><h2 id="6.-Workflow">6. Workflow<a class="anchor-link" href="#6.-Workflow">&#182;</a></h2><p>This facility has transformed the way I generate analysis code. The objective is to <em>minimize</em> notebooks. 
 I now regard them as temporary, but essential, sratch pads for developing code. Such a process requires 
 creating plots showing the results, validating assumptions about the data and analysis methods. 
@@ -13305,6 +13294,11 @@ So I create a class only for the notebook,</p>
 <p>where each of the super classes, which also inherit from ju_doc.Publisher has a similar constructor. 
 Any keywords are passed to all, presumably acted on by the one that recognizes them. All the respective 
 member functions are of course available.</p>
+<p>when adding sections to a class, the case may arise that instantiating the class may be time-consuming, 
+discouraging developing the code in its source file.
+Jupydoc requires that sections be implented with bound functions. In this case, I creating the object,
+calling it <code>self</code>, then develop the code in Jupyper. Any figures will be displayed by default after the cell.
+(Jupydoc clears all figures that it creates to avoid this in its processing.)</p>
 <p>Finally, to produce the HTML (and eventual PDF) document, I write a function that call the relevant 
 sequence of member fuctions, followed by a self.save. For this document, that is <code>__call__</code>:</p>
 
