@@ -13078,7 +13078,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><H1>Producing documents in Jupyter</H1></p>
-<p style="text-align: right;">2020-05-25 10:03</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
+<p style="text-align: right;">2020-05-26 11:06</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
 <h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction">&#182;</a></h2><h3 id="Purpose">Purpose<a class="anchor-link" href="#Purpose">&#182;</a></h3><p>This package addresses a long-term frustration I've had with using Jupyterlab for my
 analysis. Which is, how do I combine the output of a notebook, entries in my logbook, and
 the python code to produce a document to present to collaborators, or translate to an actual 
@@ -13116,7 +13116,8 @@ allows invoking each function independently, with the resulting document section
 immediatly following the code cell.</p>
 <h3 id="About-this-document">About this document<a class="anchor-link" href="#About-this-document">&#182;</a></h3><p>This document is itself a demonstration! It was generated using member functions
 of the class <code>jupydoc.Document</code>, which inherits from <code>jupydoc.Publisher</code>.
-Each such function represents a section in the document.</p>
+Each such function represents a section in the document.
+Since this is about</p>
 <h2 id="2.-Docstring-Formatting">2. Docstring Formatting<a class="anchor-link" href="#2.-Docstring-Formatting">&#182;</a></h2><p>There are three elements in such a function: the docstring, written in 
 markdown, containing 
 variable names in curly-brackets, the code, and a final call <code>self.publishme(section_name)</code>.<br>
@@ -13271,49 +13272,53 @@ These may override any of the previoius.</li>
 <p>Demonstration:</p>
 <p style="margin-left: 5%">
 This paragrah is indented 5%. It was preceded by {indent} and followed by {endl}.
-<br>To start a new line line this, in this, or any other paragraph, insert "&lt;br&gt;". 
-</p><h2 id="6.-Workflow">6. Workflow<a class="anchor-link" href="#6.-Workflow">&#182;</a></h2><p>This facility has transformed the way I generate analysis code. The objective is to <em>minimize</em> notebooks. 
-I now regard them as temporary, but essential, sratch pads for developing code. Such a process requires 
-creating plots showing the results, validating assumptions about the data and analysis methods. 
-So there are two coding elements in this procedure: the actual analysis, and the creation of associated plots.</p>
-<p>Thus I separate the two, with the ploting and discussion of which, put into members of a <code>jupydoc.Publisher</code> class.</p>
-<p>An interesting situation arises: How to "reuse" such member functions in a new, but related presentation analysis?
-Related to this is what goes into the Jupyter notebook, which is being used to develop analysis and its 
-associated documentation. With the goal of minimizing the notebook, my answer is multiple inheritance. 
-So I create a class only for the notebook,</p>
+<br>To start a new line in this, or any other paragraph, insert "&lt;br&gt;". 
+</p><h2 id="6.-Workflow">6. Workflow<a class="anchor-link" href="#6.-Workflow">&#182;</a></h2><h4 id="Development">Development<a class="anchor-link" href="#Development">&#182;</a></h4><p>This facility has transformed the way I generate analysis code.<br>
+I use notebooks only to develop the code <em>and</em> documentation. This is an incremental process, with one 
+section at a time. But the computation up to the point of adding something in a new section is perhaps 
+lengthy. Since changing code in the module requires reloading and re-executing it, it can be 
+prohibitive to edit it.</p>
+<p>An approach I'm using is to create a new module, say "dev", only for the development code, with this pattern:</p>
 
-<pre><code>class LocalDoc(A,B...):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+<pre><code>from jupydoc import Publisher
+class Development(Publisher): 
+    def __init__(self, *args **kwargs):
+        super().__init__( **kwargs)
+        ''' 
+        text to summarize setup
+        '''
+        # setup self to correspond to needs of code here
+        self.publishme('Setup')
+
     def new_section(self):
         '''
         &lt;text&gt;
         '''
-        &lt;code&gt;
+        # code using self
         self.publishme('New Section')</code></pre>
-<p>where each of the super classes, which also inherit from ju_doc.Publisher has a similar constructor. 
-Any keywords are passed to all, presumably acted on by the one that recognizes them. All the respective 
-member functions are of course available.</p>
-<p>When adding sections to a class, the case may arise that instantiating the class may be time-consuming, 
-discouraging developing the code in its source file.
-Jupydoc requires that sections be implemented with bound functions. In this case, I create the object,
-calling it <code>self</code>, then develop the code in Jupyper. Any figures will be displayed by default after the cell.
-(Jupydoc clears all figures that it creates to avoid this in its processing.)</p>
-<p>Finally, to produce the HTML (and eventual PDF) document, I write a function that call the relevant 
+<p>In the notebook, I use <code>%autoreload</code> when executing the development module with code like.</p>
+
+<pre><code>%aimport dev
+from dev import Development</code></pre>
+<p>Followed by</p>
+
+<pre><code>%autoreload 1
+self=Development( input_data):
+self.new_section()</code></pre>
+<p>To play with new code in the notebook before inserting into the module, I have "self" available. Executing such
+cells may need a "%autoreload 0" to disable the automatic reloading of the development module.</p>
+<p>When I'm satisfied, I copy the function the section.</p>
+<h4 id="Output-to-HTML">Output to HTML<a class="anchor-link" href="#Output-to-HTML">&#182;</a></h4><p>To produce the HTML (and eventual PDF) document, I add a member function that calls the relevant 
 sequence of member fuctions, followed by a self.save. For this document, that is <code>__call__</code>:</p>
 
-<pre><code>from jupydoc import document
-doc=document.Document(
-    title_info= dict(
-        title='Producing documents in Jupyter',
-        author='T. Burnett &lt;tburnett@uw.edu&gt;',
-        ),
-    doc_folder='/nfs/farm/g/glast/u/burnett/git/tburnett.github.io/jupydoc',)
-doc()</code></pre>
+<pre><code>from jupydoc import Document
+doc=Document( doc_folder='/nfs/farm/g/glast/u/burnett/git/tburnett.github.io/jupydoc',)</code></pre>
+<p>To produce a copy, or display it in your notebook, just try this online.</p>
 <h2 id="7.-Object-replacement">7. Object replacement<a class="anchor-link" href="#7.-Object-replacement">&#182;</a></h2><p>A key element of jupydoc is the ability to recognize the class of a variable appearing in the document, and 
 replace it with an instance of a "wrapper" class, which implements a replacement of the <code>__str__</code> method of the 
 original class. This is implemented by default for Figure, Dataframe and dict.
-It is all done in the class <code>jupydoc.replacement.ObjectReplacer</code>, which inherits from <code>dict</code>. An instance is in the Publisher instance.
+It is all done in the class <code>jupydoc.replacement.ObjectReplacer</code>, which inherits from <code>dict</code>. 
+An instance is in the Publisher instance.
 The initial value of <code>self.object_replacer</code> is:</p>
 <div>
 <style scoped>
@@ -13346,7 +13351,7 @@ The initial value of <code>self.object_replacer</code> is:</p>
     <tr>
       <th>Figure</th>
       <td>&lt;class 'jupydoc.replacer.FigureWrapper'&gt;</td>
-      <td>{'fig_folders': ['.', '/nfs/farm/g/glast/u/bur...</td>
+      <td>{'fig_folders': ['.']}</td>
     </tr>
     <tr>
       <th>DataFrame</th>
