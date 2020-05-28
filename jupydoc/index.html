@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>Producing documents in Jupyter</title>
+<title>Producing documents in Jupyter with jupydoc</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13077,55 +13077,68 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><H1>Producing documents in Jupyter</H1></p>
-<p style="text-align: right;">2020-05-26 11:06</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
-<h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction">&#182;</a></h2><h3 id="Purpose">Purpose<a class="anchor-link" href="#Purpose">&#182;</a></h3><p>This package addresses a long-term frustration I've had with using Jupyterlab for my
-analysis. Which is, how do I combine the output of a notebook, entries in my logbook, and
-the python code to produce a document to present to collaborators, or translate to an actual 
-publishable document? And finally, how to maintain some sort of version control with inputs to such
-a document from several sources? Jupyter notebooks are tempting since they have markdown cells that
-provide for nice formatting, even including LaTex. And of course the figures are nicely 
-inserted in the output. But I wanted to have the text reflect the calcualations, that is,
-be as dynamic as the generation of figures. And I certainly want the appearance of the
-notebook to reflect the appearance of any final document.</p>
-<p>Some important features of the jupyter environment that are essential:</p>
+<p><H1>Producing documents in Jupyter with jupydoc</H1></p>
+<p style="text-align: right;">2020-05-28 06:28</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
+<h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction">&#182;</a></h2><h3 id="What-is-it,-and-how-does-it-work?">What is it, and how does it work?<a class="anchor-link" href="#What-is-it,-and-how-does-it-work?">&#182;</a></h3><p>It is lightweight, some ~400 loc in Python exclusive of this document, with, besides depending on
+IPython and nbconvert, non-essential dependencies on pandas, matplotlib, and numpy.<br>
+The key elements that explain the design and operation are</p>
 <ul>
-<li><p>IPython.display is very flexible for generating formatted output following a code cell. 
-Especially, it interprets markdown text in the same way as for markdown cells. Thus why not 
-generate markdown text as a part of the processing that produces figures?</p>
+<li><p><strong>Code and markdown cells in a Jupyter notebook</strong><br>
+The origin of this package was rooted in a desire to be able to combine the nice formatting capability of
+markdown cells, with the output from from the computation in a code cell. By default, any matplotlib
+figures created in its computation will automatically appear below the cell. This behaviour, it turns out, can be controlled 
+by code executed in the cell. The key here is that code can create markdown text, which will be interpred
+just as the text in a markown cell. This includes LaTex.</p>
 </li>
-<li><p>The "docstring" of a python function is easily accessible to via Python's inspection.</p>
+<li><p><strong>Python [inspection][<a href="https://docs.python.org/3/library/inspect.html">https://docs.python.org/3/library/inspect.html</a>)</strong><br>
+The inspection capability gives access to two important elements of a function:</p>
+<ul>
+<li>docstring&mdash; a text string immediatly following the function declaration.</li>
+<li>synbol table&mdash;in python terms, a "dict" with variable names as keys, and values the actual value of the
+variables</li>
+</ul>
 </li>
-<li><p>The <code>str.format</code> function that replaces curly-bracketed fields in a string with representations
-of expressions in curly brackets. That is used here with the <code>locals()</code> dictionary as an argument.</p>
+<li><p><strong>Python string format method</strong><br>
+Since python 2.6, text strings have had a "format" method, which intrprets {...}, replacing what it finds between the
+curly brackets with an evaluation of it as an expression. (With python 3, this is built into special format strings.)</p>
 </li>
-<li><p>The related package nbconvert which supports creation of an HTML document from a notebook,
-in this case the Juptyer version of markdown. It is necessary to produce an idential-looking (almost)
+<li><p><strong>[nbconvert][<a href="https://nbconvert.readthedocs.io/en/latest/">https://nbconvert.readthedocs.io/en/latest/</a>]</strong><br>
+This separate package supports creation of an HTML document from a notebook, specifically interpreting Jupyter's version of markdwon
+in this case the Juptyer version of markdown. It is necessary to produce an (almost) idential-looking 
 document to what is rendered in the notebook.</p>
 </li>
 </ul>
-<p>Thus one can use this to document a function that does some calculation, generating various figures,
-with that function's docstring. A further evolution of this idea was to have the function reflect
-a <em>section</em> of the final document. And to encapsulate the whole thing into a Python class,
-inheriting from a class that handles all the details. This completely addresses my frustration
-in that the code for such a class is all I need to procuce a nice document.</p>
-<p>It is no longer necessary to maintain separate notebook files&mdash;but Jupyter/IPython is not only
-crutial for producing the document, but the Jupyter environment is essential for developing the
-analysis and generating the associated documentation. The modular section-oriented structure
-allows invoking each function independently, with the resulting document section displayed
-immediatly following the code cell.</p>
-<h3 id="About-this-document">About this document<a class="anchor-link" href="#About-this-document">&#182;</a></h3><p>This document is itself a demonstration! It was generated using member functions
-of the class <code>jupydoc.Document</code>, which inherits from <code>jupydoc.Publisher</code>.
-Each such function represents a section in the document.
-Since this is about</p>
-<h2 id="2.-Docstring-Formatting">2. Docstring Formatting<a class="anchor-link" href="#2.-Docstring-Formatting">&#182;</a></h2><p>There are three elements in such a function: the docstring, written in 
-markdown, containing 
-variable names in curly-brackets, the code, and a final call <code>self.publishme(section_name)</code>.<br>
+<h3 id="What-is-it-good-for?">What is it good for?<a class="anchor-link" href="#What-is-it-good-for?">&#182;</a></h3><ul>
+<li><p><strong>A document like this</strong><br>
+This document is itself a demonstration, testing all the features it desribes! It was generated using 
+member functions  of the class <code>jupydoc.Document</code>, which inherits from <code>jupydoc.Publisher</code>.
+Each such function represents a section in the document.</p>
+</li>
+<li><p><strong>Simple Jupyter-based analyses</strong><br>
+Rather than spreading output among several cells, this encourages making a coherent description, 
+including output plots, say, in the area below a single cell.</p>
+</li>
+<li><p><strong>Peersonal notebook</strong><br>
+Rahter than cutting and pasting single plots to a personal notebook, this allows the clipping 
+to include many details, with LaTex formulas perhaps.</p>
+</li>
+<li><p><strong>Pesentations and analysis documents</strong><br>
+Sharing ones analysis results with others is a small step from the personal notebook. The days of 
+requring Powerpoint to make presentations seem to be over, so the document is the presentation medium.</p>
+</li>
+<li><p><strong>Publication?</strong>
+Well, I'd not go that far, but the evolution to such should be easy, especially if relevant LaTex
+formulae, plots with captions and relevant description have already been done.</p>
+</li>
+</ul>
+<h2 id="2.-Docstring-Formatting">2. Docstring Formatting<a class="anchor-link" href="#2.-Docstring-Formatting">&#182;</a></h2><p>A member function of a class inheriting from <code>jupydoc.Publisher</code> needs to have three elements; the docstring, written in 
+markdown, containing  variable names in curly-brackets, the code, and a final call <code>self.publishme(section_name)</code>.<br>
 Unlike a formatted string, entries in curly brackets cannot be expressions.</p>
-<h4 id="Local-variables">Local variables<a class="anchor-link" href="#Local-variables">&#182;</a></h4><p>Any variable, say from an expression in the code <code>q=1/3</code>, can be interpreted
-with <code>"q={q:.3f}"</code>, resulting in<br>
-q=0.333.</p>
-<h4 id="Figures">Figures<a class="anchor-link" href="#Figures">&#182;</a></h4><p>Any number of Matplotlib Figure objects can be added, with unique numbers.
+<h4 id="Local-variables">Local variables<a class="anchor-link" href="#Local-variables">&#182;</a></h4><p>Any variable, say from an expression in the code <code>q=1/3</code>, can be interpreted in the docstring
+with <code>"q={q:.3f}"</code>, resulting in</p>
+<p style="margin-left: 5%">
+q=0.333.        
+</p><h4 id="Figures">Figures<a class="anchor-link" href="#Figures">&#182;</a></h4><p>Any number of Matplotlib Figure objects can be included.
 An entry "{fig1}", along with code that defines <code>fig1</code> like this:</p>
 
 <pre><code>x = np.linspace(0,10)
@@ -13137,13 +13150,14 @@ fig1.caption='''Caption for Fig. 1, which
 <p>produces:</p>
 <figure> <img src="figs/fig_1.png" alt="Figure 1 at figs/fig_1.png"> <figcaption>Caption for Fig. 1, which
                 shows $x^2$ vs. $x$.    
-               .</figcaption></figure><p>The display processing replaces the <code>fig1</code> reference in a copy of <code>locals()</code>
+               .</figcaption></figure><p>The display processing replaces the <code>fig1</code> reference in a copy of the local variable dictionary
 with a object that implements a <code>__str__()</code> function returning an HTML reference 
 to a saved png representation of the figure.<br>
 Note the convenience of defining a caption by adding the text as an attribute of
 the Figure object.<br>
-Also, the <code>self.newfignum()</code> returns a new figure number. Its number can be referred to
-in the text as <code>{fig1.number}</code>.</p>
+The <code>self.newfignum()</code> returns a new figure number. It is necessary to for all
+the figures in a section to be unique. But the actual number is set to be sequential for the whole document.
+It can be referred to in the text as <code>{fig1.number}</code>.</p>
 <h4 id="DataFrames">DataFrames<a class="anchor-link" href="#DataFrames">&#182;</a></h4><p>A <code>pandas.DataFrame</code> object is treated similarly.</p>
 <p>The code</p>
 
@@ -13273,7 +13287,10 @@ These may override any of the previoius.</li>
 <p style="margin-left: 5%">
 This paragrah is indented 5%. It was preceded by {indent} and followed by {endl}.
 <br>To start a new line in this, or any other paragraph, insert "&lt;br&gt;". 
-</p><h2 id="6.-Workflow">6. Workflow<a class="anchor-link" href="#6.-Workflow">&#182;</a></h2><h4 id="Development">Development<a class="anchor-link" href="#Development">&#182;</a></h4><p>This facility has transformed the way I generate analysis code.<br>
+</p><h4 id="Preformatted-text">Preformatted text<a class="anchor-link" href="#Preformatted-text">&#182;</a></h4><p>The function <code>monospace(text)</code> is provided to achieve insertion of "preformatted" text with a monospace font.
+It can be invokded with a text string, or any object, that returns a description of itself via its class <code>__str__</code> 
+function. For example "test_string = self.monospace('This is a test')", with a corresponding  "{test_string}" will look like:</p>
+<p style="margin-left: 5%"><samp>This is a test</samp></p><h2 id="6.-Workflow">6. Workflow<a class="anchor-link" href="#6.-Workflow">&#182;</a></h2><h4 id="Development">Development<a class="anchor-link" href="#Development">&#182;</a></h4><p>This facility has transformed the way I generate analysis code.<br>
 I use notebooks only to develop the code <em>and</em> documentation. This is an incremental process, with one 
 section at a time. But the computation up to the point of adding something in a new section is perhaps 
 lengthy. Since changing code in the module requires reloading and re-executing it, it can be 
@@ -13307,7 +13324,10 @@ self=Development( input_data):
 self.new_section()</code></pre>
 <p>To play with new code in the notebook before inserting into the module, I have "self" available. Executing such
 cells may need a "%autoreload 0" to disable the automatic reloading of the development module.</p>
-<p>When I'm satisfied, I copy the function the section.</p>
+<p>While generating and testing a document, the display in the notebook may be large. For this reason,
+it is possible to suppress display in the notebook by setting executing "display_on=False" to suppress notebook 
+output. This does not affect the document itself, all of which will be written to the outpub folder. It is
+very useful to a have a window open to the browser display of this file, to monitor the entire document.</p>
 <h4 id="Output-to-HTML">Output to HTML<a class="anchor-link" href="#Output-to-HTML">&#182;</a></h4><p>To produce the HTML (and eventual PDF) document, I add a member function that calls the relevant 
 sequence of member fuctions, followed by a self.save. For this document, that is <code>__call__</code>:</p>
 
@@ -13315,9 +13335,9 @@ sequence of member fuctions, followed by a self.save. For this document, that is
 doc=Document( doc_folder='/nfs/farm/g/glast/u/burnett/git/tburnett.github.io/jupydoc',)</code></pre>
 <p>To produce a copy, or display it in your notebook, just try this online.</p>
 <h2 id="7.-Object-replacement">7. Object replacement<a class="anchor-link" href="#7.-Object-replacement">&#182;</a></h2><p>A key element of jupydoc is the ability to recognize the class of a variable appearing in the document, and 
-replace it with an instance of a "wrapper" class, which implements a replacement of the <code>__str__</code> method of the 
+replace it with an instance of a "wrapper" class, which implements a alternative to the <code>__str__</code> method of the 
 original class. This is implemented by default for Figure, Dataframe and dict.
-It is all done in the class <code>jupydoc.replacement.ObjectReplacer</code>, which inherits from <code>dict</code>. 
+It is all done in the class <code>jupydoc.replacer.ObjectReplacer</code>, which inherits from <code>dict</code>. 
 An instance is in the Publisher instance.
 The initial value of <code>self.object_replacer</code> is:</p>
 <div>
@@ -13351,7 +13371,7 @@ The initial value of <code>self.object_replacer</code> is:</p>
     <tr>
       <th>Figure</th>
       <td>&lt;class 'jupydoc.replacer.FigureWrapper'&gt;</td>
-      <td>{'fig_folders': ['.']}</td>
+      <td>{'fig_folders': ['.'], 'fig_numberer': &lt;jupydo...</td>
     </tr>
     <tr>
       <th>DataFrame</th>
@@ -13366,10 +13386,11 @@ The initial value of <code>self.object_replacer</code> is:</p>
   </tbody>
 </table>
 </div><p>where the value is a tuple, the two columns displayed.</p>
-<p>So one can modify this instance, using 'update`, to change current keyword args, or add a new wrapper class.
+<p>So in the constructor of a subclass, one can modify this instance, using 'update`, to change current keyword args, or 
+add a new wrapper class.
 A wrapper class is instantiated with two args: the instance that it will interpret, and the kwargs.</p>
 <hr>
-<p>Document "Producing documents in Jupyter", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a>, saved to "/nfs/farm/g/glast/u/burnett/git/tburnett.github.io/jupydoc"'</p>
+<p>Document "Producing documents in Jupyter with jupydoc", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a>, saved to "/nfs/farm/g/glast/u/burnett/git/tburnett.github.io/jupydoc"'</p>
 
 </div>
 </div>
