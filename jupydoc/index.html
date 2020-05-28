@@ -13078,7 +13078,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><H1>Producing documents in Jupyter with jupydoc</H1></p>
-<p style="text-align: right;">2020-05-28 06:28</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
+<p style="text-align: right;">2020-05-28 06:53</p><p><p style="text-align: center;" >T. Burnett &lt;tburnett@uw.edu&gt;</p></p>
 <h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction">&#182;</a></h2><h3 id="What-is-it,-and-how-does-it-work?">What is it, and how does it work?<a class="anchor-link" href="#What-is-it,-and-how-does-it-work?">&#182;</a></h3><p>It is lightweight, some ~400 loc in Python exclusive of this document, with, besides depending on
 IPython and nbconvert, non-essential dependencies on pandas, matplotlib, and numpy.<br>
 The key elements that explain the design and operation are</p>
@@ -13090,7 +13090,7 @@ figures created in its computation will automatically appear below the cell. Thi
 by code executed in the cell. The key here is that code can create markdown text, which will be interpred
 just as the text in a markown cell. This includes LaTex.</p>
 </li>
-<li><p><strong>Python [inspection][<a href="https://docs.python.org/3/library/inspect.html">https://docs.python.org/3/library/inspect.html</a>)</strong><br>
+<li><p><strong>Python <a href="https://docs.python.org/3/library/inspect.html">inspection</a></strong><br>
 The inspection capability gives access to two important elements of a function:</p>
 <ul>
 <li>docstring&mdash; a text string immediatly following the function declaration.</li>
@@ -13099,10 +13099,11 @@ variables</li>
 </ul>
 </li>
 <li><p><strong>Python string format method</strong><br>
-Since python 2.6, text strings have had a "format" method, which intrprets {...}, replacing what it finds between the
-curly brackets with an evaluation of it as an expression. (With python 3, this is built into special format strings.)</p>
+Since python 2.6, text strings have had a "format" method, which intrprets occurences of"{...}", 
+replacing what it finds between the
+curly brackets with its evaluation as an expression. (With python 3, this is built into special format strings.)</p>
 </li>
-<li><p><strong>[nbconvert][<a href="https://nbconvert.readthedocs.io/en/latest/">https://nbconvert.readthedocs.io/en/latest/</a>]</strong><br>
+<li><p><strong><a href="https://nbconvert.readthedocs.io/en/latest/">nbconvert</a></strong><br>
 This separate package supports creation of an HTML document from a notebook, specifically interpreting Jupyter's version of markdwon
 in this case the Juptyer version of markdown. It is necessary to produce an (almost) idential-looking 
 document to what is rendered in the notebook.</p>
@@ -13112,21 +13113,22 @@ document to what is rendered in the notebook.</p>
 <li><p><strong>A document like this</strong><br>
 This document is itself a demonstration, testing all the features it desribes! It was generated using 
 member functions  of the class <code>jupydoc.Document</code>, which inherits from <code>jupydoc.Publisher</code>.
-Each such function represents a section in the document.</p>
+Each such function represents a section in the document. The code that produced this document is in fact testing and 
+describing the code that produces it.</p>
 </li>
 <li><p><strong>Simple Jupyter-based analyses</strong><br>
 Rather than spreading output among several cells, this encourages making a coherent description, 
 including output plots, say, in the area below a single cell.</p>
 </li>
-<li><p><strong>Peersonal notebook</strong><br>
+<li><p><strong>Personal notebook</strong><br>
 Rahter than cutting and pasting single plots to a personal notebook, this allows the clipping 
 to include many details, with LaTex formulas perhaps.</p>
 </li>
 <li><p><strong>Pesentations and analysis documents</strong><br>
 Sharing ones analysis results with others is a small step from the personal notebook. The days of 
-requring Powerpoint to make presentations seem to be over, so the document is the presentation medium.</p>
+needing Powerpoint to make presentations seem to be over, so the document can be the presentation medium.</p>
 </li>
-<li><p><strong>Publication?</strong>
+<li><p><strong>Publication?</strong><br>
 Well, I'd not go that far, but the evolution to such should be easy, especially if relevant LaTex
 formulae, plots with captions and relevant description have already been done.</p>
 </li>
@@ -13289,8 +13291,9 @@ This paragrah is indented 5%. It was preceded by {indent} and followed by {endl}
 <br>To start a new line in this, or any other paragraph, insert "&lt;br&gt;". 
 </p><h4 id="Preformatted-text">Preformatted text<a class="anchor-link" href="#Preformatted-text">&#182;</a></h4><p>The function <code>monospace(text)</code> is provided to achieve insertion of "preformatted" text with a monospace font.
 It can be invokded with a text string, or any object, that returns a description of itself via its class <code>__str__</code> 
-function. For example "test_string = self.monospace('This is a test')", with a corresponding  "{test_string}" will look like:</p>
-<p style="margin-left: 5%"><samp>This is a test</samp></p><h2 id="6.-Workflow">6. Workflow<a class="anchor-link" href="#6.-Workflow">&#182;</a></h2><h4 id="Development">Development<a class="anchor-link" href="#Development">&#182;</a></h4><p>This facility has transformed the way I generate analysis code.<br>
+function. For example "test_string = self.monospace('This is a multi-line test.\nAfter a newline.')", 
+with a corresponding  "{test_string}" will look like:</p>
+<p style="margin-left: 5%"><samp>This is a multi-line test.<br>After a newline.</samp></p><h2 id="6.-Workflow">6. Workflow<a class="anchor-link" href="#6.-Workflow">&#182;</a></h2><h4 id="Development">Development<a class="anchor-link" href="#Development">&#182;</a></h4><p>This facility has transformed the way I generate analysis code.<br>
 I use notebooks only to develop the code <em>and</em> documentation. This is an incremental process, with one 
 section at a time. But the computation up to the point of adding something in a new section is perhaps 
 lengthy. Since changing code in the module requires reloading and re-executing it, it can be 
