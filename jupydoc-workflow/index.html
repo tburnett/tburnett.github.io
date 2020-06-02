@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>Jupydoc Workflow implications</title>
+<title>Jupydoc Workflow Implications</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13077,13 +13077,15 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><H1>Jupydoc Workflow implications</H1></p>
-<p style="text-align: right;">2020-06-01 20:25</p><p><p style="text-align: center;" >Toby Burnett</p></p>
+<p><H1>Jupydoc Workflow Implications</H1></p>
+<p style="text-align: right;">2020-06-02 07:15</p><p><p style="text-align: center;" >Toby Burnett</p></p>
 <p><p style="margint: 0% 10%" >ABSTRACT: I Discuss the design and usage of multiple documents. I'll show the file layout, and discuss code to implement it. This is only in my working area for now, and uses a slightly modified version of <samp>jupydoc.Publisher</samp>.</p></p>
 <h2 id="1.-File-layout">1. File layout<a class="anchor-link" href="#1.-File-layout">&#182;</a></h2><p>This is my directory layout:</p>
 
 <pre><code>| doc_classes
    | __init__.py  
+   | publisher.py
+   | indexer.py
    | dev
       | __init__.py
       | doc_file1.py
@@ -13092,26 +13094,35 @@ div#notebook {
       | __init__.py
       | doc_file1.py
       | doc_file2.py
-    | misc
+   |  misc
       | __init__.py
       | doc_file3.py
-      | doc_file4.py
-| docs
-  | __init__.py
-    index.yaml
-    index.html
-    publisher.py</code></pre>
-<p>Each folder defines a Python <em>module</em> that can be imported. In this case <samp>doc_classes</samp> is 
-the high level, containing one level of submodules. The submodules expose document classes.
+      | doc_file4.py</code></pre>
+<p>Each folder defines a Python <em>module</em> that can be imported. The module <samp>doc_classes</samp> 
+is at the package level, so can be imported directly.
+It has one level of submodules which expose the document classes.
 I'm using <samp>dev</samp>
 and <samp>prod</samp> to allow files with the same name to be in different modules, with the possibility
-of copying the "dev" guy to "prod", to save its state. The top-level <samp>__index__.py</samp> has the 
-statement</p>
+of copying the "dev" guy to "prod", to save its state. The file <samp>doc_classes.__index__.py</samp> 
+has the code</p>
 
-<pre><code>__all__=['dev', 'misc', 'prod']</code></pre>
-<p>and defines a function <samp>get_doc(*name*)</samp>, allowing
-easy access by name for any document. The submodules have code like this in their
-<samp>__index__.py</samp></p>
+<pre><code># declare submodules with the document files
+__all__=['dev', 'misc', 'prod']
+
+# where documents will be saved
+docspath = '../docs'
+
+from .indexer import get_doc, set_paths, get_module_names, get_path
+set_paths(docspath, __name__, __all__)
+
+# this module has a jupydoc.Publisher subclass. This makes it available to document classes
+from .publisher import Publisher</code></pre>
+<p>The imported function <samp>get_doc(*name*)</samp>, allows
+easy access by name for any document. The variable <samp>docspath</samp> specifies a path
+to the folder where the documents will be stored. The two Python files have code to manage an index of
+the HTML documents in the docspath folder, and to implement a subclass of <samp>jupydoc.Publisher</samp>.</p>
+<p>The submodules have code like this in their
+<samp>__index__.py</samp> files:</p>
 
 <pre><code>from .workflow import Workflow
 from .jupydoc_doc import JupyDoc
@@ -13119,7 +13130,7 @@ from .jupydoc_doc import JupyDoc
 __all__=['Workflow','JupyDoc']</code></pre>
 <p>Each Python script in the submodules may contain one or more document classes, with this initial code:</p>
 
-<pre><code>from docs import Publisher
+<pre><code>from doc_classes import Publisher
 class MyDoc(Publisher):
     '''
     title: My Document
@@ -13130,12 +13141,9 @@ class MyDoc(Publisher):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)</code></pre>
 <p><br>Here <samp>Publisher</samp> is either imported from <samp>jupydoc</samp> or a subclass implementing 
-local enhacements. (This class could inherit instead from another document class in order to insert, or
-update sections from it.) 
-In the <samp>docs.__index__.py</samp> is the statement</p>
-
-<pre><code>from .publisher import Publisher</code></pre>
-<p>The code in <samp>publisher.py</samp> may just import the "real" Publisher.</p>
+local enhancements (This class could inherit instead from another document class in order to insert, or
+update sections from it.) The class docstring, which is in <a href="https://en.wikipedia.org/wiki/YAML">yaml</a>,
+is used to define document properties.</p>
 <h2 id="2.-Usage">2. Usage<a class="anchor-link" href="#2.-Usage">&#182;</a></h2><h3 id="The-Jupyterlab-environment">The Jupyterlab environment<a class="anchor-link" href="#The-Jupyterlab-environment">&#182;</a></h3><p>To work on this document, I run these two lines in a Jupyerlab notebook:</p>
 
 <pre><code>from doc_classes import get_doc
@@ -13149,7 +13157,8 @@ a section name or a section number, where 0 is the title, or a range (first, las
 it is convenient to specify "-1" to see the last.</p>
 <p>To modify the code or docstring, I have the file containing the class open in another window, on the left
 in the image. Also,
-I have a separate browser window to display the current version of the whole document.
+I have a separate browser window to display the current version of the whole document. (The <samp>docs</samp>
+folder is accessable to a server, important since my jupyerlab server is remote.)
 Here is a screen on my 34" monitor.<br><br>
 <img src="images/jupydoc-screen.png" alt=""></p>
 <p>Re-creating this document, which does no computing itself, takes 1/2 s.</p>
@@ -13167,16 +13176,23 @@ entry for the current document. The dictionary key is, e.g. "misc.Workflow" the 
 <samp>docs</samp>with the document name.</li>
 </ol>
 <p>The presence of the file <samp>index.html</samp> means that the <samp>docs</samp> folder can be opened in a browser.</p>
-<h2 id="3.-Code-Development">3. Code Development<a class="anchor-link" href="#3.-Code-Development">&#182;</a></h2><p>This section discusses the organization of code beyond beyond that to define documents.</p>
-<h2 id="4.-Future-tasks">4. Future tasks<a class="anchor-link" href="#4.-Future-tasks">&#182;</a></h2><p>Maintain a TODO list here.</p>
+<h2 id="3.-Code-Development">3. Code Development<a class="anchor-link" href="#3.-Code-Development">&#182;</a></h2><p>This section discusses the organization of code beyond beyond that to define documents. This should
+be the location of important computation code&mdash; that should be elsewhere, and invoked from here.
+Detailed figure-generating code could be external, where it could be shared by different section 
+functions.</p>
+<h2 id="4.-Future-tasks">4. Future tasks<a class="anchor-link" href="#4.-Future-tasks">&#182;</a></h2><p>A TODO list:</p>
 <ul>
-<li>Support nesting of doc folders--one level is wired-in.</li>
-<li>Insert images--needs code to copy an external image to the document folder, to "images", and perhaps to the notebook. Should be either a web reference, or in a folder in the submodule.
-Follow model in class Replacer, perhaps define an Image class. (Done "by hand" in this document)</li>
-<li>Think about how to get it to github and/or PyPI. Something that creates the folder structure, downloads the code?</li>
+<li>Implement automatic Insertion of images--needs code to copy an external image file to the document
+folder, to "images", and 
+perhaps to the notebook. Should be either a web reference, or in a folder in the submodule.
+Follow the model in class Replacer, perhaps define an Image class. (Done "by hand" in this document.)</li>
+<li>Integrate this with jupydoc. The two source files intexer.py and publisher.py, implementing
+get_doc, Indexer, and this Publisher could be put there. </li>
+<li>Add anchors and generate a table of contents with links to the sections.</li>
+<li>If requested, support nesting of doc folders--one level is wired-in.</li>
 </ul>
 <hr>
-<p>Document "Jupydoc Workflow implications", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a><br> 
+<p>Document "Jupydoc Workflow Implications", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a><br> 
 created by class <samp>Workflow</samp> /nfs/farm/g/glast/u/burnett/analysis/lat_timing/doc_classes/misc/workflow.py<br>
 saved to <samp>/nfs/farm/g/glast/u/burnett/analysis/lat_timing/docs/misc.Workflow</samp></p>
 
