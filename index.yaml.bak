@@ -1,0 +1,18 @@
+docsrc.JupyDoc:
+  author: 'Toby Burnett <tburnett@uw.edu>
+
+    University of Washington
+
+    '
+  date: 2020-06-09 08:33
+  info:
+    docname: docsrc.JupyDoc
+    filename: /home/burnett/work/jupydoc-dev/docsrc/intro.py
+  title: 'Jupydoc: Generate documents with Python code '
+docsrc.MultipleDocs:
+  author: Toby Burnett
+  date: 2020-06-09 08:09
+  info:
+    docname: docsrc.MultipleDocs
+    filename: /home/burnett/work/jupydoc-dev/docsrc/workflow.py
+  title: Jupydoc Support for  Multiple Documents
