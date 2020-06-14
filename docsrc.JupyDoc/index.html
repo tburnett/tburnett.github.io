@@ -13083,14 +13083,15 @@ div#notebook {
  .jupydoc_fig { text-align: center; }
  .errorText {color:red;}
   hr.thick{border-top: 3px solid black;}
-</style></p>
+</style>
+<a id="top"></a></p>
 <header>
 <a id="title_page"> <h1>Jupydoc: Generate documents with Python code </h1> </a>
 <h2>Introduction and demonstration </h2>
-<p style="text-align: right;">2020-06-09 08:42</p> 
+<p style="text-align: right;">2020-06-14 13:18</p> 
 <p style="text-align: center;" >Toby Burnett &lt;tburnett@uw.edu&gt;<br>University of Washington<br></p>
 
-</header><h2 id="1.-Introduction-">1. Introduction <a id="introduction" /><a class="anchor-link" href="#1.-Introduction-">&#182;</a></h2><h3 id="What-it-is-not">What it is <strong>not</strong><a class="anchor-link" href="#What-it-is-not">&#182;</a></h3><p>Jupydoc, despite the name, does not explicitly depend on Jupyterlab. 
+</header><h2 id="1-Introduction-">1 Introduction <a id="introduction" /><a class="anchor-link" href="#1-Introduction-">&#182;</a></h2><h3 id="What-it-is-not">What it is <strong>not</strong><a class="anchor-link" href="#What-it-is-not">&#182;</a></h3><p>Jupydoc, despite the name, does not explicitly depend on Jupyterlab. 
 It is not a nice way to turn 
 detailed notebooks into documents: If you want that, see this 
 <a href="http://blog.juliusschulz.de/blog/ultimate-ipython-notebook">system</a>.</p>
@@ -13160,59 +13161,88 @@ needing PowerPoint to make presentations seem to be over, so the document can be
 </li>
 <li><p><strong>Publication?</strong><br>
 Well, I'd not go that far, but the evolution to such should be easy, especially if relevant LaTex
-formulae, plots with captions and relevant description have already been done.
-<a href="#title_page">top</a></p>
+formulae, plots with captions and relevant description have already been done.</p>
 </li>
 </ul>
-<h2 id="2.-Docstring-Formatting-">2. Docstring Formatting <a id="formatting_summary" /><a class="anchor-link" href="#2.-Docstring-Formatting-">&#182;</a></h2><p>A member function of a class inheriting from <code>jupydoc.Publisher</code> should have three elements:</p>
-<ul>
+<p style="text-align: right;"><a href="#top">top</a></p><h2 id="2-Variable-Formatting--">2 Variable Formatting  <a id="variable_formatting" /><a class="anchor-link" href="#2-Variable-Formatting--">&#182;</a></h2><p>A function defining a section or subsection, a member of a class inheriting from 
+<code>jupydoc.Publisher</code> has three elements:</p>
+<ol>
 <li>a <em>docstring</em>, comment text that will be interpreted as markdown, which may contain  variable
 names in curly-brackets, </li>
 <li>Python executable code, presumably creating objects to be discussed, </li>
-<li>a line <code>self.publishme(</code><em>section_name</em> <code>)</code>, where the optional <em>section_name</em> will be the header for output. 
-Unlike a formatted string, entries in curly brackets cannot be expressions. An alternative is that,
-if it is not present, the first line of the docstring, if followed by a blank line, will be the section 
-header.</li>
-</ul>
-<h4 id="Local-variables">Local variables<a class="anchor-link" href="#Local-variables">&#182;</a></h4><p>Any variable, say from an expression in the code <code>q=1/3</code>, can be interpreted in the docstring
-with <code>"q={q:.3f}"</code>, resulting in</p>
+<li>a line <code>self.publishme()</code>.</li>
+</ol>
+<p>Unlike a formatted string, entries in curly brackets cannot be expressions.</p>
+<p>The list of possible variable names comes from three sources, each one updating the previous
+set.</p>
+<ol>
+<li>Built-in. A class variable <code>predefined</code>. This is set to the useful values discussed here,
+but of course the user may update or replace it.</li>
+<li>The local variables available to the code in the function, locally defined or defined 
+in the argument list, especially "self". (So predefined variables are also <code>self.predefined.var</code>)</li>
+<li>Variables defined in the call to <code>publishme</code>, collected with Python's <code>**kwargs</code> mechanism. 
+These may override any of the previous.</li>
+</ol>
+<p>This section examines formating options for such variables in curly brackets.</p>
+<h3 id="2.1-Scalars---">2.1 Scalars   <a id="scalars" /><a class="anchor-link" href="#2.1-Scalars---">&#182;</a></h3><p>A scalar variable, say from an expression in the code <code>q=1/3</code>, can be interpreted in the docstring  with <code>"q={q:.3f}"</code>, resulting in</p>
 <p style="margin-left: 5%">
 q=0.333.        
-</p><h4 id="Figures">Figures<a class="anchor-link" href="#Figures">&#182;</a></h4><p>Any number of Matplotlib Figure objects can be included.
+</p><h3 id="2.2-Python-lists-and-dicts-">2.2 Python lists and dicts <a id="list_and_dict" /><a class="anchor-link" href="#2.2-Python-lists-and-dicts-">&#182;</a></h3><p>These basic Python data structures are represented using the "pretty printer"
+<a href="https://docs.python.org/3/library/pprint.html"><code>pprint</code></a></p>
+<p>For example a list generate by <code>n = list(range(1,11))</code> appears thus:  <p style="margin-left: 5%"><samp>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</samp></p>.</p>
+<p>And a dict generated by <code>d = dict((i,2**i) for i in n)</code> is this: <p style="margin-left: 5%"><samp>{1: 2, 2: 4, 3: 8, 4: 16, 5: 32, 6: 64, 7: 128, 8: 256, 9: 512, 10: 1024}</samp></p></p>
+<h3 id="2.3-LaTex-">2.3 LaTex <a id="latex" /><a class="anchor-link" href="#2.3-LaTex-">&#182;</a></h3><p>Jupyter-style markdown can contain LaTex expressions. For this, it is 
+necessary that the docstring be preceded by an "r". So,</p>
+
+<pre><code>\begin{align*}
+\sin^2\theta + \cos^2\theta =1
+\end{align*}</code></pre>
+<p><br>Results in:<br>
+    \begin{align*}
+    \sin^2\theta + \cos^2\theta =1
+    \end{align*}</p>
+<h3 id="2.4-Images-">2.4 Images <a id="images" /><a class="anchor-link" href="#2.4-Images-">&#182;</a></h3><p>Images be inserted into the docucument, as follows: 
+The jupydoc function <samp>image</samp> is provided for this purpose. In the code, set an accessible variable with
+a call `self.image(filename)':</p>
+
+<pre><code>launch_image = self.image("$HOME/images/fermi-launch.jpg",
+                    caption="The launch of Fermi on a Delta II on June 11, 2008",
+                    width=300)</code></pre>
+<p>referred to in this text as "{launch_image}", will produce this:</p>
+<div class="jupydoc_fig"><figure> <img src="images/fermi-launch.jpg"  width=300  alt="Image fermi-launch.jpg at images/fermi-launch.jpg"> 
+  <figcaption>The launch of Fermi on a Delta II on June 11, 2008</figcaption>
+</figure></div><p>This uses the <a href="https://www.w3schools.com/tags/tag_figure.asp">HTML5 <code>figure</code> tag</a>,
+which manages a caption. One can also set the width or height, 
+see the discussion on the 
+<a href="https://www.w3schools.com/tags/tag_img.asp">HTML <code>img</code> tag</a>.</p>
+<h3 id="2.5-Figures-">2.5 Figures <a id="figures" /><a class="anchor-link" href="#2.5-Figures-">&#182;</a></h3><p><em>This feataure requires that <code>matplotlib</code> has been installed.</em></p>
+<p>Any number of Matplotlib Figure objects can be included.
 An entry "{fig1}", along with code that defines <code>fig1</code> like this:</p>
 
 <pre><code>x = np.linspace(0,10)
 fig1,ax=plt.subplots(num=self.newfignum(), figsize=(4,3))
 ax.plot(x, x**2)
 ax.set(xlabel='$x$', ylabel='$x^2$', title=f'figure {fig1.number}')
-fig1.caption='''Caption for Fig. 1, which
+fig1.caption='''Caption for Fig. {fig1.number}, which
         shows $x^2$ vs. $x$.'''</code></pre>
 <p>produces:</p>
 <div class="jupydoc_fig"><figure> <img src="figs/fig_01.png" alt="Figure 1 at figs/fig_01.png"> <figcaption>Caption for Fig. 1, which
-                shows $x^2$ vs. $x$.    
-               .</figcaption></figure></div><p>The display processing replaces the <code>fig1</code> reference in a copy of the local variable dictionary
-with a object that implements a <code>__str__()</code> function returning an HTML reference 
-to a saved png representation of the figure.<br>
-Note the convenience of defining a caption by adding the text as an attribute of
+                    shows $x^2$ vs. $x$.    
+                .</figcaption></figure></div><p>Note the convenience of defining a caption by adding the text as an attribute of
 the Figure object.<br>
 The <code>self.newfignum()</code> returns a new figure number. It is necessary to for all
 the figures in a section to be unique. But the actual number is set to be sequential for
 the whole document.
-It can be referred to in the text as <code>{fig1.number}</code>.</p>
-<h4 id="Images">Images<a class="anchor-link" href="#Images">&#182;</a></h4><p>Images be inserted into the docucument, as follows: 
-The jupydoc function <samp>image</samp> is provided for this purpose. In the code, set an accessible variable with
-a call `self.image(filename)':</p>
+Then number can be referred to in the text as <code>{fig1.number}</code>.</p>
+<h3 id="2.6-DataFrames-">2.6 DataFrames <a id="dataframes" /><a class="anchor-link" href="#2.6-DataFrames-">&#182;</a></h3><p><em>(This feature is only available if <a href="https://pandas.pydata.org/">pandas</a> is installed)</em></p>
+<p>The code, from <a href="https://www.geeksforgeeks.org/python-pandas-dataframe/">this tutorial</a>:</p>
 
-<pre><code>launch_image = self.image("$HOME/images/fermi-launch.jpg",
-                    caption="The launch of Fermi on a Delta II on June 11, 2008", width=300)</code></pre>
-<p>referred to in this text as "{launch_image}, will produce this:</p>
-<div class="jupydoc_fig"><figure> <img src="images/fermi-launch.jpg"  width=300  alt="Image fermi-launch.jpg at images/fermi-launch.jpg"> 
-  <figcaption>The launch of Fermi on a Delta II on June 11, 2008</figcaption>
-</figure></div><p>One can set the width or height.</p>
-<h4 id="DataFrames">DataFrames<a class="anchor-link" href="#DataFrames">&#182;</a></h4><p>A <code>pandas.DataFrame</code> object is treated similarly.</p>
-<p>The code</p>
+<pre><code>    # intialise data of lists.
+    data = {'Name':['Tom', 'nick', 'krish', 'jack'],
+            'Age':[20, 21, 19, 18]}
 
-<pre><code>df = pd.DataFrame.from_dict(dict(x=x, xx=x**2), orient='index')</code></pre>
+    # Create DataFrame
+    df = pd.DataFrame(data)</code></pre>
 <p><br>Results in "{df}" being replaced with</p>
 <div>
 <style scoped>
@@ -13231,146 +13261,57 @@ a call `self.image(filename)':</p>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th>0</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
-      <th>6</th>
-      <th>7</th>
-      <th>8</th>
-      <th>9</th>
-      <th>10</th>
-      <th>11</th>
-      <th>12</th>
-      <th>13</th>
-      <th>14</th>
-      <th>15</th>
-      <th>16</th>
-      <th>17</th>
-      <th>18</th>
-      <th>19</th>
-      <th>20</th>
+      <th>Name</th>
+      <th>Age</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>0.000</td>
-      <td>0.500</td>
-      <td>1.000</td>
-      <td>1.500</td>
-      <td>2.000</td>
-      <td>2.500</td>
-      <td>3.000</td>
-      <td>3.500</td>
-      <td>4.000</td>
-      <td>4.500</td>
-      <td>5.000</td>
-      <td>5.500</td>
-      <td>6.000</td>
-      <td>6.500</td>
-      <td>7.000</td>
-      <td>7.500</td>
-      <td>8.000</td>
-      <td>8.500</td>
-      <td>9.000</td>
-      <td>9.500</td>
-      <td>10.000</td>
+      <td>Tom</td>
+      <td>20</td>
     </tr>
     <tr>
-      <td>0.000</td>
-      <td>0.250</td>
-      <td>1.000</td>
-      <td>2.250</td>
-      <td>4.000</td>
-      <td>6.250</td>
-      <td>9.000</td>
-      <td>12.250</td>
-      <td>16.000</td>
-      <td>20.250</td>
-      <td>25.000</td>
-      <td>30.250</td>
-      <td>36.000</td>
-      <td>42.250</td>
-      <td>49.000</td>
-      <td>56.250</td>
-      <td>64.000</td>
-      <td>72.250</td>
-      <td>81.000</td>
-      <td>90.250</td>
-      <td>100.000</td>
+      <td>nick</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <td>krish</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <td>jack</td>
+      <td>18</td>
     </tr>
   </tbody>
 </table>
-</div><h4 id="LaTex">LaTex<a class="anchor-link" href="#LaTex">&#182;</a></h4><p>Jupyter-style markdown can contain LaTex expressions. For this, it is 
-necessary that the docstring be preceded by an "r". So,</p>
-
-<pre><code>\begin{align*}
-\sin^2\theta + \cos^2\theta =1
-\end{align*}</code></pre>
-<p><br>Results in:<br>
-    \begin{align*}
-    \sin^2\theta + \cos^2\theta =1
-    \end{align*}</p>
-<p>The "{}" formatting may modify LaTex expressions: e.g.</p>
-<h2><code>$q^2={qsq:.3f}$</code> &rarr; $q^2=0.111$.</h2>
-<p>The capability shown here for the Figure and DataFrame objects could be easily extended to other
-classes. For user objects it only necessary to define an appropriate class <code>__str__</code> function.</p>
-<p><a href="#title_page">top</a></p>
-<h2 id="3.-Document-Structure-">3. Document Structure <a id="document_structure" /><a class="anchor-link" href="#3.-Document-Structure-">&#182;</a></h2><p>The output document may be a single page without any title or section organization. 
+</div><p style="text-align: right;"><a href="#top">top</a></p><h2 id="3-Document-Structure-">3 Document Structure <a id="document_structure" /><a class="anchor-link" href="#3-Document-Structure-">&#182;</a></h2><p>The output document may be a single page without any title or section organization. 
 This section discusses the more complete use case, with a title page, sections,
 and perhaps subsections as for the current document.</p>
 <p>There is of course a close correlation with the structure of the Python class
-that defines the document.
-This section illustrates the use of numbered subsections.</p>
-<p>The code of this section sets a random number $r$ to 0.928 &mdash; the symbol "r" will be available
-in any of its subsection documents.</p>
-<p>Future enhancements could include a table of contents, appendices, and links within the document.
-         <a href="#title_page">top</a></p>
-<h3 id="3.1.-Title-page-">3.1. Title page <a id="document_structure" /><a class="anchor-link" href="#3.1.-Title-page-">&#182;</a></h3><p>The document has an optional title page containing the title, a date, 
-and perhaps an abstract. This is set either with an argument  to  the superclass <code>self.title_info</code> with
-keys "title", "author", and "abstract", or by providing the three fields in the class docstring, separated
-by a blank line.</p>
-<p>The page is produced with a call to <code>self.title_page</code>.</p>
-<h3 id="3.2.-Sections-">3.2. Sections <a id="document_structure" /><a class="anchor-link" href="#3.2.-Sections-">&#182;</a></h3><p>Each member function, with a docstring and call to <code>self.publishme</code> will 
+that defines the document.</p>
+<p>The code of this section sets a random number $r$ to 0.130 &mdash; the symbol "r" will be available
+in any of its subsection document functions.</p>
+<h3 id="3.1-Title-page-">3.1 Title page <a id="title" /><a class="anchor-link" href="#3.1-Title-page-">&#182;</a></h3><p>The document has a title page containing by default the title, a date, 
+and perhaps an abstract. These are defined by fields in the yaml-format class docsstring
+keys "title", "author", and "abstract".</p>
+<p>The page will appear by default before the sections. It is implemented by the predefined 
+function <code>title_page</code>. A subclass can, however, override it and produce an alternative.</p>
+<h3 id="3.2-Sections-">3.2 Sections <a id="sections" /><a class="anchor-link" href="#3.2-Sections-">&#182;</a></h3><p>Each member function, with a docstring and call to <code>self.publishme</code> will 
 generate a numbered section. 
-The optional section heading can be specified either as an argument to <code>publishme</code> or as the
-first line of the function docstring, followed by a blank line.
-The numbers are sequential as called by default, but can be specified
-by setting <code>self.section_number</code> in the code.
-         <a href="#title_page">top</a></p>
-<h3 id="3.3.-Subsections-">3.3. Subsections <a id="document_structure" /><a class="anchor-link" href="#3.3.-Subsections-">&#182;</a></h3><p>One can define a subsection with the <strong>same</strong> function structure as for a section. To be a subsection,
-a call to it must be at the end of the code for the section to which it belongs, after its call to <code>self.publishme</code>.</p>
-<p>The subsections for the section were generated with this code:</p>
+The optional section heading is specified by the
+first line of the function docstring, if followed by a blank line.
+The section numbers are sequential in the order defined. 
+by setting <code>self.section_number</code> in the code.</p>
+<h3 id="3.3-Subsections-">3.3 Subsections <a id="subsections" /><a class="anchor-link" href="#3.3-Subsections-">&#182;</a></h3><p>Subsection functions have the <strong>same</strong> function structure as for sections. To be a subsection,
+it must be declared in the "subssections" par</p>
 
-<pre><code>self.publishme()
-self.title()
-self.sections()
-self.subsections()
-self.other_text()
-self.assembly()</code></pre>
+<pre><code>
+</code></pre>
 <p>Any symbols accessible in the section are available in the docstring portion here. For example,
-the section to which this subsection belongs set a random number $r$ to 0.928.</p>
-<h3 id="3.4.-Other-text-">3.4. Other text <a id="document_structure" /><a class="anchor-link" href="#3.4.-Other-text-">&#182;</a></h3><p>Text not fitting into the section structure can be added with a call to the member function
+the section to which this subsection belongs set a random number $r$ to 0.130.</p>
+<h3 id="3.4-Other-text-">3.4 Other text <a id="other_text" /><a class="anchor-link" href="#3.4-Other-text-">&#182;</a></h3><p>Text not fitting into the section structure can be added with a call to the member function
 <code>markdown</code>, providing a text string.</p>
-<h3 id="3.5.-Assembly-">3.5. Assembly <a id="document_structure" /><a class="anchor-link" href="#3.5.-Assembly-">&#182;</a></h3><p>Assembling the document requires calling the section functions in the desired order, starting with 
-the built in <code>title_page</code>. This may be done by hand of course, by adding a function to do that to
-the user subclass, or from code external to the class. But a simpler way, in the spirt of the class code
-transparently defining itself: There are up to four fields in the <em>class</em> docstring, 
-separated by empty lines: title, author, abstract, and section list. The section list is a list of the
-section function names, separated by blanks on one or more lines. For this document, for example, it is</p>
-<p style="margin-left: 5%"><samp>title_page introduction formatting_summary document_structure<br>    file_structure other_formatting_options object_replacement workflow</samp></p><p>The Publisher superclass defines a <code>__call__</code> function, making it callable. So to produce, 
-and write out if the output document folder has been specified, one simply calls the document object.</p>
-<p>For development in the JupyterLab environment, one may display all, or a range of sections. 
-Optional calls to the function can be</p>
-<ul>
-<li>a (start,stop) range of indeces</li>
-<li>a single integer, the index of the section function in the list</li>
-<li>the name of the section</li>
-</ul>
-<p>Figures are added to a "figs" folder in the current folder, as well as the destination document folder.</p>
-<h2 id="4.-File-structure-">4. File structure <a id="file_structure" /><a class="anchor-link" href="#4.-File-structure-">&#182;</a></h2><h2 id="Web">Web<a class="anchor-link" href="#Web">&#182;</a></h2><p>The resulting Web document has two components: the HTML file with all the text and formatting, and, in the
+<p style="text-align: right;"><a href="#top">top</a></p><h2 id="4-File-structure-">4 File structure <a id="file_structure" /><a class="anchor-link" href="#4-File-structure-">&#182;</a></h2><h2 id="Web">Web<a class="anchor-link" href="#Web">&#182;</a></h2><p>The resulting Web document has two components: the HTML file with all the text and formatting, and, in the
 same folder, a  subfolder "figs" with the figures, which are included via the 
 HTML e.g., <code>&lt;img src="figs/fig_1.png"/&gt;</code>.</p>
 <p>The use case motivating this was to develop the document in Jupyter, and easily save it as a 
@@ -13380,22 +13321,12 @@ saved in its folder.</p>
 document folder, and copying the figure folder into it.</p>
 <h3 id="PDF?">PDF?<a class="anchor-link" href="#PDF?">&#182;</a></h3><p>Using nbconvert for this seems to fail. A better solution, in the works, is to use code that I 
 found in <a href="https://github.com/betatim/notebook-as-pdf"><code>notebook-as-pdf</code></a>, which uses a headless
-chrome, relying on (<code>pyppeteer</code>)[<a href="https://pypi.org/project/pyppeteer/">https://pypi.org/project/pyppeteer/</a>] to render the HTML to a PDF file.</p>
-<h2 id="5.-Other-Formatting-options-">5. Other Formatting options <a id="other_formatting_options" /><a class="anchor-link" href="#5.-Other-Formatting-options-">&#182;</a></h2><p>Markdown text is designed to be readable and easy to compose, a huge difference from
+chrome, relying on <a href="https://pypi.org/project/pyppeteer/"><code>pyppeteer</code></a> to render the HTML to a PDF file.</p>
+<p style="text-align: right;"><a href="#top">top</a></p><h2 id="5-Other-Formatting-options-">5 Other Formatting options <a id="other_formatting_options" /><a class="anchor-link" href="#5-Other-Formatting-options-">&#182;</a></h2><p>Markdown text is designed to be readable and easy to compose, a huge difference from
 the formal HTML, to which it is translated. One can of course insert HTML 
 directly into the text, of course compromising the readability, and requiring HTML knowledge. 
 Jupydoc processing allows inserting predefined strings when processing the docstring text, 
 which represents a  compromise.</p>
-<p>Variable names in the docstring text come from three sources, each one updating the previous
-set.</p>
-<ol>
-<li>Built-in. A class variable <code>predefined</code>. This is set to the useful values discussed here,
-but of course the user may update or replace it.</li>
-<li>The local variables available to the code in the function, locally defined or defined 
-in the argument list, especially "self". (So predefined variables are also <code>self.predefined.var</code>)</li>
-<li>Variables defined in the call to <code>publishme</code>, collected with Python's <code>**kwargs</code> mechanism. 
-These may override any of the previous.</li>
-</ol>
 <h4 id="Indenting">Indenting<a class="anchor-link" href="#Indenting">&#182;</a></h4><p>Indenting a paragraph is not directly possible with markdown. But we can easily insert the appropriate HTML</p>
 <ul>
 <li>{indent}: <code>&lt;p style="margin-left: 5%"&gt;</code> &mdash;the margin is predefined, easily changed by the user</li>
@@ -13410,76 +13341,13 @@ This paragraph is indented 5%. It was preceded by {indent} and followed by {endl
 It can be invoked with a text string, or any object which returns a description of itself via its class <code>__str__</code> 
 function. For example "test_string = self.monospace('This is a multi-line test.\nAfter a newline.')", 
 with a corresponding  "{test_string}" will look like:
-         <a href="#title_page">top</a></p>
-<p style="margin-left: 5%"><samp>This is a multi-line test.<br>After a newline.</samp></p><h2 id="6.-Some-technical-details-">6. Some technical details <a id="object_replacement" /><a class="anchor-link" href="#6.-Some-technical-details-">&#182;</a></h2><h3 id="Object-replacement">Object replacement<a class="anchor-link" href="#Object-replacement">&#182;</a></h3><p>A key feature of jupydoc is its ability to recognize the class of a 
-variable appearing in the document, and  replace it with an instance of a "wrapper" class, 
-which implements a alternative to the <code>__str__</code> method of the 
-original class. This is done by default for Figure, DataFrame and dict.
-It happens in the class <code>jupydoc.replacer.ObjectReplacer</code>, which inherits from <code>dict</code>. 
-An instance is in the Publisher instance.
-The initial value of <code>self.object_replacer</code> is:</p>
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>wrapper class</th>
-      <th>keyword dict</th>
-    </tr>
-    <tr>
-      <th>key</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Figure</th>
-      <td>&lt;class 'jupydoc.replacer.FigureWrapper'&gt;</td>
-      <td>{'fig_folders': ['/home/burnett/work/jupydoc-d...</td>
-    </tr>
-    <tr>
-      <th>DataFrame</th>
-      <td>&lt;class 'jupydoc.replacer.DataFrameWrapper'&gt;</td>
-      <td>{'notebook': True, 'max_rows': 10, 'index': Fa...</td>
-    </tr>
-    <tr>
-      <th>dict</th>
-      <td>&lt;class 'jupydoc.replacer.DictWrapper'&gt;</td>
-      <td>{}</td>
-    </tr>
-    <tr>
-      <th>JupydocImage</th>
-      <td>&lt;class 'jupydoc.replacer.JupydocImageWrapper'&gt;</td>
-      <td>{}</td>
-    </tr>
-  </tbody>
-</table>
-</div><p>(illustrating the replacement for a Python dict)
-The value is a tuple, the two columns displayed.</p>
-<p>So in the constructor of a subclass, one can modify this instance, using 'update`, to change current keyword args, or 
-add a new wrapper class.
-A wrapper class is instantiated with two arguments: the instance that it will interpret, and the kwargs.</p>
-<p><a href="#title_page">top</a></p>
-<p><hr class="thick">
+         <a href="top">top</a></p>
+<p style="margin-left: 5%"><samp>This is a multi-line test.<br>After a newline.</samp></p><p style="text-align: right;"><a href="#top">top</a></p><p><hr class="thick">
 Document "Jupydoc: Generate documents with Python code 
 Introduction and demonstration
 ", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a><br>
-Created by class <samp>JupyDoc</samp> /home/burnett/work/jupydoc-dev/docsrc/intro.py<br>
-Saved to <samp>/home/burnett/work/jupydoc-dev/docsrc/../../tburnett.github.io/docsrc.JupyDoc</samp></p>
+Created by class <samp>JupyDoc</samp> /nfs/farm/g/glast/u/burnett/git/jupydoc/docsrc/intro.py<br>
+Saved to <samp>/nfs/farm/g/glast/u/burnett/git/tburnett.github.io/docsrc.JupyDoc</samp></p>
 
 </div>
 </div>

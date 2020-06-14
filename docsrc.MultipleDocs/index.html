@@ -2,7 +2,8 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>Jupydoc Support for  Multiple Documents</title>
+<title>Jupydoc Support for  Multiple Documents 
+</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13080,14 +13081,16 @@ div#notebook {
 <p><style >
  .jupydoc_fig { text-align: center; }
  .errorText {color:red;}
-</style></p>
+  hr.thick{border-top: 3px solid black;}
+</style>
+<a id="top"></a></p>
 <header>
-<a id="title_page"> <h1>Jupydoc Support for  Multiple Documents</h1> </a>
+<a id="title_page"> <h1>Jupydoc Support for  Multiple Documents </h1> </a>
 <h2></h2>
-<p style="text-align: right;">2020-06-09 08:09</p> 
-<p style="text-align: center;" >Toby Burnett</p>
-<p style="margint: 0% 10%" >ABSTRACT: I Discuss the design that extends the basic jupydoc, and how it manages multiple documents.</p>
-</header><h2 id="1.-Setup-">1. Setup <a id="setup" /><a class="anchor-link" href="#1.-Setup-">&#182;</a></h2><p>The basic Jupydoc makes it easy to create documents in the JupyterLab environmant
+<p style="text-align: right;">2020-06-13 11:24</p> 
+<p style="text-align: center;" >Toby Burnett<br>University of Washington<br>tburnett@uw.edu<br></p>
+<p style="margint: 0% 10%" >I Discuss the design that extends the basic jupydoc, and how it manages multiple documents.</p>
+</header><h2 id="1-Setup-">1 Setup <a id="setup" /><a class="anchor-link" href="#1-Setup-">&#182;</a></h2><p>The basic Jupydoc makes it easy to create documents in the JupyterLab environmant
 perhaps combined with code development or analysis.
 This describes additional support to manage and index multiple documents, both the source files
 and the output documents.</p>
@@ -13104,15 +13107,18 @@ The last line generates a summary of the file structure
 and available document classes:</p>
 
 <pre><code>
-    Modules                         Classes
-     docsrc.jupydoc_doc             ['JupyDoc']
-     docsrc.workflow                ['DocsDesign', 'Workflow']</code></pre>
+    Modules                  Classes
+      docsrc.
+        intro                   ['JupyDoc']
+        workflow                ['MultipleDocs', 'Workflow']
+
+    docspath: /nfs/farm/g/glast/u/burnett/git/tburnett.github.io</code></pre>
 <p>This is a list of the python module names that have been imported to discover
 their declared class names.
 The package containing these files has of necessity an <code>__init__.py</code>. It must declare
 a variable "docspath" to associate another folder with the output. In this case it is</p>
 
-<pre><code>docspath = '../docs'</code></pre>
+<pre><code> docspath = '../../tburnett.github.io'</code></pre>
 <p>So the generated documents are in the same folder as this package.</p>
 <p>The source file needs to declare class(es) that it contains. For the present one has
 the lines:</p>
@@ -13132,9 +13138,8 @@ __docs__ = ['DocsDesign', 'Workflow']</code></pre>
         super().__init__(**kwargs)</code></pre>
 <p>To support the document structure, the class docstring, which is in 
 <a href="https://en.wikipedia.org/wiki/YAML">yaml</a>,
-is used to define document properties.
-<a href="#title_page">top</a></p>
-<h2 id="2.-Usage-">2. Usage <a id="usage" /><a class="anchor-link" href="#2.-Usage-">&#182;</a></h2><h3 id="Editing-and-generating">Editing and generating<a class="anchor-link" href="#Editing-and-generating">&#182;</a></h3><p>With the DocMan instance generated in the setup phase, the following instantiates
+is used to define document properties.</p>
+<p style="text-align: right;"><a href="#top">top</a></p><h2 id="2-Usage-">2 Usage <a id="usage" /><a class="anchor-link" href="#2-Usage-">&#182;</a></h2><h3 id="Editing-and-generating">Editing and generating<a class="anchor-link" href="#Editing-and-generating">&#182;</a></h3><p>With the DocMan instance generated in the setup phase, the following instantiates
 a document instance "DocsDesign", makes the output HTML file, while displaying 
 a selected section, the title page in this case, in the notebook:</p>
 
@@ -13176,17 +13181,16 @@ in a browser.
 Here is what the index looks like:</p>
 <div class="jupydoc_fig"><figure> <img src="images/jupydoc-index.png"    alt="Image jupydoc-index.png at images/jupydoc-index.png"> 
   <figcaption></figcaption>
-</figure></div><p><a href="#title_page">top</a></p>
-<h2 id="3.-Code-Development-">3. Code Development <a id="code_development" /><a class="anchor-link" href="#3.-Code-Development-">&#182;</a></h2><p>This section discusses the organization of code beyond beyond that to define documents. 
+</figure></div><p style="text-align: right;"><a href="#top">top</a></p><h2 id="3-Code-Development-">3 Code Development <a id="code_development" /><a class="anchor-link" href="#3-Code-Development-">&#182;</a></h2><p>This section discusses the organization of code beyond beyond that to define documents. 
 This should  be the location of important computation code&mdash; that should be elsewhere,
 and invoked from here.
 Detailed figure-generating code could be external, where it could be shared by
-different section functions.
-<a href="#title_page">top</a></p>
-<hr>
-<p>Document "Jupydoc Support for  Multiple Documents", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a><br> 
-created by class <samp>MultipleDocs</samp> /home/burnett/work/jupydoc-dev/docsrc/workflow.py<br>
-saved to <samp>/home/burnett/work/jupydoc-dev/docsrc/../../tburnett.github.io/docsrc.MultipleDocs</samp></p>
+different section functions.</p>
+<p style="text-align: right;"><a href="#top">top</a></p><p><hr class="thick">
+Document "Jupydoc Support for  Multiple Documents 
+", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a><br>
+Created by class <samp>MultipleDocs</samp> /nfs/farm/g/glast/u/burnett/git/jupydoc/docsrc/workflow.py<br>
+Saved to <samp>/nfs/farm/g/glast/u/burnett/git/tburnett.github.io/docsrc.MultipleDocs</samp></p>
 
 </div>
 </div>
