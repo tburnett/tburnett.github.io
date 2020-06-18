@@ -4,7 +4,7 @@ docsrc.JupyDoc:
     University of Washington
 
     '
-  date: 2020-06-14 12:53
+  date: 2020-06-14 13:18
   info:
     docname: docsrc.JupyDoc
     filename: /nfs/farm/g/glast/u/burnett/git/jupydoc/docsrc/intro.py
@@ -39,3 +39,7 @@ docsrc.MultipleDocs:
     docname: docsrc.MultipleDocs
     filename: /nfs/farm/g/glast/u/burnett/git/jupydoc/docsrc/workflow.py
   title: 'Jupydoc Support for  Multiple Documents '
+jupydoc.documents.Manual:
+  author: Toby Burnett <tburnett@uw.edu>
+  date: 2020-06-18 16:05
+  title: 'Jupydoc: Generate documents with Python code '

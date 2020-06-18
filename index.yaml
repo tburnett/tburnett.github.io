@@ -39,3 +39,11 @@ docsrc.MultipleDocs:
     docname: docsrc.MultipleDocs
     filename: /nfs/farm/g/glast/u/burnett/git/jupydoc/docsrc/workflow.py
   title: 'Jupydoc Support for  Multiple Documents '
+jupydoc.documents.Manual:
+  author: Toby Burnett <tburnett@uw.edu>
+  date: 2020-06-18 16:05
+  title: 'Jupydoc: Generate documents with Python code '
+jupydoc.documents.Technicals:
+  author: ''
+  date: 2020-06-18 16:05
+  title: JupyDoc technical detalis
