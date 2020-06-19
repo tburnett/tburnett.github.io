@@ -13085,7 +13085,7 @@ div#notebook {
 <a id="top"></a></p>
 <p><a id="title_page"></a><a id="title_page"> <h1>Jupydoc: Generate documents with Python code </h1> </a></p>
 <p><h2></h2></p>
-<p style="text-align: right;">2020-06-18 17:36</p> 
+<p style="text-align: right;">2020-06-18 19:51</p> 
 <p style="text-align: center;" >Toby Burnett &lt;tburnett@uw.edu&gt;<br>University of Washington<br></p><p><a id="introduction"></a></p>
 <h2 id="1-Introduction">1 Introduction<a class="anchor-link" href="#1-Introduction">&#182;</a></h2><h3 id="What-it-is-not">What it is <strong>not</strong><a class="anchor-link" href="#What-it-is-not">&#182;</a></h3><p>Jupydoc, despite the name, does not explicitly depend on Jupyterlab. 
 It is not a nice way to turn 
@@ -13246,20 +13246,20 @@ q=0.333.
 Using the jupydoc function <samp>image</samp>, set a variable with
 a call `self.image(filename)':</p>
 
-<pre><code>path,_ = os.path.split(self.filename)
-filename = os.path.join(path, "../images/fermi-launch.jpg")
-
-launch_image = self.image(filename,
-                    caption="The launch of Fermi on a Delta II on June 11, 2008", width=300)</code></pre>
+<pre><code>launch_image = self.image( 'fermi-launch.jpg',
+        caption='launch of Fermi on a Delta II on June 11, 2008", width=300)</code></pre>
 <p>referred to in this text as "{launch_image}", will produce this:</p>
 <div class="jupydoc_fig"><figure> <img src="images/fermi-launch.jpg"  width=300  alt="Image fermi-launch.jpg at images/fermi-launch.jpg"> 
-  <figcaption>The launch of Fermi on a Delta II on June 11, 2008</figcaption>
+  <figcaption>launch of Fermi on a Delta II on June 11, 2008</figcaption>
 </figure></div><p>This uses the <a href="https://www.w3schools.com/tags/tag_figure.asp">HTML5 <code>figure</code> tag</a>,
 which manages a caption. One can also set the width or height, 
 see the discussion on the 
 <a href="https://www.w3schools.com/tags/tag_img.asp">HTML <code>img</code> tag</a>.</p>
-<p>Note that the image was specified relative to the path for this source file, which
-was obtained from the variable <code>self.filename</code>.</p>
+<p>The full path for the name is relative to the source file, except this 
+class specified</p>
+
+<pre><code>self.image_folder = os.path.join(self.path, '../images')</code></pre>
+<p>in its class <code>__init__</code>.</p>
 <h3 id="3.5-Figures">3.5 Figures<a class="anchor-link" href="#3.5-Figures">&#182;</a></h3><p><em>This feature requires that <code>matplotlib</code> has been installed.</em></p>
 <p>Any number of Matplotlib Figure objects can be included.
 An entry "{fig1}", along with code that defines <code>fig1</code> like this:</p>
