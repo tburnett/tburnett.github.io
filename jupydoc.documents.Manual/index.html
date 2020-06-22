@@ -13085,7 +13085,7 @@ div#notebook {
 <a id="top"></a></p>
 <p><a id="title_page"></a><a id="title_page"> <h1>Jupydoc: Generate documents with Python code </h1> </a></p>
 <p><h2></h2></p>
-<p style="text-align: right;">2020-06-18 19:51</p> 
+<p style="text-align: right;">2020-06-22 07:56</p> 
 <p style="text-align: center;" >Toby Burnett &lt;tburnett@uw.edu&gt;<br>University of Washington<br></p><p><a id="introduction"></a></p>
 <h2 id="1-Introduction">1 Introduction<a class="anchor-link" href="#1-Introduction">&#182;</a></h2><h3 id="What-it-is-not">What it is <strong>not</strong><a class="anchor-link" href="#What-it-is-not">&#182;</a></h3><p>Jupydoc, despite the name, does not explicitly depend on Jupyterlab. 
 It is not a nice way to turn 
@@ -13271,7 +13271,7 @@ ax.set(xlabel='$x$', ylabel='$x^2$', title=f'figure {fig1.number}')
 fig1.caption='''Caption for Fig. {fig1.number}, which
         shows $x^2$ vs. $x$.'''</code></pre>
 <p>produces:</p>
-<div class="jupydoc_fig"><figure> <img src="figs/fig_01.png" alt="Figure 1 at figs/fig_01.png"> <figcaption>Caption for Fig. 1, which
+<div class="jupydoc_fig"><figure> <img src="figs/fig_03.png" alt="Figure 3 at figs/fig_03.png"> <figcaption>Caption for Fig. 3, which
                 shows $x^2$ vs. $x$.    
             </figcaption></figure></div><p>Note the convenience of defining a caption by adding the text as an attribute of
 the Figure object.<br>
@@ -13349,7 +13349,11 @@ It can be invoked with a text string, or any object which returns a description 
 function. For example "test_string = self.monospace('This is a multi-line test.\nAfter a newline.')", 
 with a corresponding  "{test_string}" will look like:
          <a href="top">top</a></p>
-<p style="margin-left: 5%"><samp>This is a multi-line test.<br>After a newline.</samp></p><p style="text-align: right;"></p><p><a id="making_a_document"></a></p>
+<p style="margin-left: 5%"><samp>This is a multi-line test.<br>After a newline.</samp></p><h4 id="Shell-output">Shell output<a class="anchor-link" href="#Shell-output">&#182;</a></h4><p>A function <code>shell</code> will execute one or more shell commands, return the preformatted text.
+So, this code line, 
+<code>shell_test = self.shell('env | grep PYTHON')</code>
+ produces this:</p>
+<p style="margin-left: 5%"><samp>CONDA_PYTHON_EXE=/home/burnett/miniconda3/bin/python<br>PYTHONPATH=/home/burnett/work/jupydoc:/home/burnett/work/lat/<br></samp></p><p style="text-align: right;"></p><p><a id="making_a_document"></a></p>
 <h2 id="4-Making-a-document">4 Making a document<a class="anchor-link" href="#4-Making-a-document">&#182;</a></h2><p>This section introduces an enhancement to the basic framework to create a structured
   <em>document</em>, with a title page, sections, and subsections.
 To accomplish this there are two basic requirement:</p>
@@ -13429,6 +13433,8 @@ the lines:</p>
 <pre><code>from jupydoc import DocPublisher
 __docs__ = ['Manual', 'Technicals']</code></pre>
 <p><code>DocMan</code> does a recursive search for all modules contained within the parent package.</p>
+<p>Note that instead of "dm" on the last line, that "dm?" produces that, but also the signature
+had help for the function.</p>
 <h4 id="docspath">docspath<a class="anchor-link" href="#docspath">&#182;</a></h4><p>The parameter <code>docspath</code> is indentical to the <code>docpath</code> discussed <a href="#output_specification"> above </a>. The "s" is to
 convey the multiple document orientation.  It can be defined in the by a <code>docspath=</code> in the top-level package's <code>__init__.py</code>, which would
 be overridden with an argument to the <code>DocMan</code> instantiation. 
@@ -13469,6 +13475,15 @@ not only to use, but to make improvements to.</p>
 present code, with a different file structure.</p>
 <p>I have yet to spend much time on that, and plan to record conclusions here as I update
 this file.</p>
+<h3 id="Log-of-updates,-observations">Log of updates, observations<a class="anchor-link" href="#Log-of-updates,-observations">&#182;</a></h3><h4 id="06/18/2020">06/18/2020<a class="anchor-link" href="#06/18/2020">&#182;</a></h4><p>Release "beta" version</p>
+<h4 id="06/22/2020">06/22/2020<a class="anchor-link" href="#06/22/2020">&#182;</a></h4><ul>
+<li>Add <code>self.shell</code>.</li>
+<li>Adjust generation loop to avoid output to the document if any section fails, and 
+optionally terminate.
+This is part of a realization that my early focus on this as a document-creation
+project needs to account for the more research-oriented <em>analysis</em>, where sections
+represent stages&mdash;so a failure of any stage should interrupt the process.</li>
+</ul>
 <p><hr class="thick">
 Document "jupydoc.documents.Manual", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a><br>
 Saved to <samp>/home/burnett/docs/tburnett.github.io/jupydoc.documents.Manual)</samp></p>
