@@ -13085,7 +13085,7 @@ div#notebook {
 <a id="top"></a></p>
 <p><a id="title_page"></a><a id="title_page"> <h1>Jupydoc: Generate documents with Python code </h1> </a></p>
 <p><h2></h2></p>
-<p style="text-align: right;">2020-06-29 07:55</p> 
+<p style="text-align: right;">2020-06-29 10:48</p> 
 <p style="text-align: center;" >Toby Burnett &lt;tburnett@uw.edu&gt;<br>University of Washington<br></p><p><a id="introduction"></a></p>
 <h2 id="1-Introduction">1 Introduction<a class="anchor-link" href="#1-Introduction">&#182;</a></h2><h3 id="What-it-is-not">What it is <strong>not</strong><a class="anchor-link" href="#What-it-is-not">&#182;</a></h3><p>Jupydoc, despite the name, does not explicitly depend on Jupyterlab. 
 It is not a nice way to turn 
@@ -13464,7 +13464,21 @@ the date and title.</li>
 <p>Here is what the index looks like:</p>
 <div class="jupydoc_fig"><figure> <img src="images/jupydoc-index.png"    alt="Image jupydoc-index.png at images/jupydoc-index.png"> 
   <figcaption></figcaption>
-</figure></div><p style="text-align: right;"><a href="#top">top</a></p><p><a id="workflow"></a></p>
+</figure></div><h4>Linked documents&mdash;client-mode</h4>
+<p>One can insert links to other documents saved by <code>DocMan</code>. This is especially useful in an 
+analysis mode where the linked document was generated in conjunction with a previous 
+analysis stage, perhaps preparing a dataset, available as attributes of the object.</p>
+<p>To implement this, <code>DocMan</code> adds a callback to itself, 'docman`, to the object before calling it. Then the document can invoke the other document like this:</p>
+
+<pre><code>  otherdoc, link = self.docman.client('Technicals')</code></pre>
+<p>and then use the link: {link}, which evaluates to <code>"../Technicals/index.html"</code>, can be used like this:</p>
+
+<pre><code>   &lt;a href={link}&gt;some technical details&lt;/a&gt;</code></pre>
+<p>generates a link to <a href="../Technicals/index.html">some technical details</a>, as well as 
+the other document object itself.</p>
+<p>The other document can detect that it was invoked in this way with an attribute
+<code>client_mode</code>, and not regenerate the document if it exists.</p>
+<p style="text-align: right;"><a href="#top">top</a></p><p><a id="workflow"></a></p>
 <h2 id="6-Workflow">6 Workflow<a class="anchor-link" href="#6-Workflow">&#182;</a></h2><p>This started as a little project to allow me to better organize my research, 
 incorporating generating research notebook (not JupyterLab) entries and facilitating
 generation of presentations. Some of the motivations were hinted at in the 
