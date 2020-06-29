@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>jupydoc.documents.Manual</title>
+<title>Manual</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13085,7 +13085,7 @@ div#notebook {
 <a id="top"></a></p>
 <p><a id="title_page"></a><a id="title_page"> <h1>Jupydoc: Generate documents with Python code </h1> </a></p>
 <p><h2></h2></p>
-<p style="text-align: right;">2020-06-22 10:33</p> 
+<p style="text-align: right;">2020-06-29 05:42</p> 
 <p style="text-align: center;" >Toby Burnett &lt;tburnett@uw.edu&gt;<br>University of Washington<br></p><p><a id="introduction"></a></p>
 <h2 id="1-Introduction">1 Introduction<a class="anchor-link" href="#1-Introduction">&#182;</a></h2><h3 id="What-it-is-not">What it is <strong>not</strong><a class="anchor-link" href="#What-it-is-not">&#182;</a></h3><p>Jupydoc, despite the name, does not explicitly depend on Jupyterlab. 
 It is not a nice way to turn 
@@ -13249,9 +13249,7 @@ a call `self.image(filename)':</p>
 <pre><code>launch_image = self.image( 'fermi-launch.jpg',
         caption='launch of Fermi on a Delta II on June 11, 2008", width=300)</code></pre>
 <p>referred to in this text as "{launch_image}", will produce this:</p>
-<div class="jupydoc_fig"><figure> <img src="images/fermi-launch.jpg"  width=300  alt="Image fermi-launch.jpg at images/fermi-launch.jpg"> 
-  <figcaption>launch of Fermi on a Delta II on June 11, 2008</figcaption>
-</figure></div><p>This uses the <a href="https://www.w3schools.com/tags/tag_figure.asp">HTML5 <code>figure</code> tag</a>,
+<p class="errorText"> <b>Image file /home/burnett/work/jupydoc/jupydoc/fermi-launch.jpg not found.</b></p><p>This uses the <a href="https://www.w3schools.com/tags/tag_figure.asp">HTML5 <code>figure</code> tag</a>,
 which manages a caption. One can also set the width or height, 
 see the discussion on the 
 <a href="https://www.w3schools.com/tags/tag_img.asp">HTML <code>img</code> tag</a>.</p>
@@ -13288,7 +13286,7 @@ Then number can be referred to in the text as <code>{fig1.number}</code>.</p>
 
     # Create DataFrame
     df = pd.DataFrame(data)</code></pre>
-<p><br>Results in "{df}" being appearing as</p>
+<p><br>Results in "{df}" appearing as</p>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -13329,6 +13327,7 @@ Then number can be referred to in the text as <code>{fig1.number}</code>.</p>
     </tr>
   </tbody>
 </table>
+<p>4 rows × 2 columns</p>
 </div><h3 id="3.7-Other-Formatting-options">3.7 Other Formatting options<a class="anchor-link" href="#3.7-Other-Formatting-options">&#182;</a></h3><p>Markdown text is designed to be readable and easy to compose, a huge difference from
 the formal HTML, to which it is translated. One can of course insert HTML 
 directly into the text, of course compromising the readability, and requiring HTML knowledge. 
@@ -13349,11 +13348,11 @@ It can be invoked with a text string, or any object which returns a description 
 function. For example "test_string = self.monospace('This is a multi-line test.\nAfter a newline.')", 
 with a corresponding  "{test_string}" will look like:
          <a href="top">top</a></p>
-<p style="margin-left: 5%"><samp>This is a multi-line test.<br>After a newline.</samp></p><h4 id="Shell-output">Shell output<a class="anchor-link" href="#Shell-output">&#182;</a></h4><p>A function <code>shell</code> will execute one or more shell commands, return the preformatted text.
+<p style="margin-left: 5%"><pre>This is a multi-line test.<br>After a newline.</pre></p><h4 id="Shell-output">Shell output<a class="anchor-link" href="#Shell-output">&#182;</a></h4><p>A function <code>shell</code> will execute one or more shell commands, return the preformatted text.
 So, this code line, 
 <code>shell_test = self.shell('env | grep PYTHON')</code>
  produces this:</p>
-<p style="margin-left: 5%"><samp>CONDA_PYTHON_EXE=/home/burnett/miniconda3/bin/python<br>PYTHONPATH=/home/burnett/work/jupydoc:/home/burnett/work/lat/<br></samp></p><p style="text-align: right;"></p><p><a id="making_a_document"></a></p>
+<p style="margin-left: 5%"><pre>CONDA_PYTHON_EXE=/home/burnett/miniconda3/bin/python<br>PYTHONPATH=/home/burnett/work/jupydoc<br></pre></p><p style="text-align: right;"></p><p><a id="making_a_document"></a></p>
 <h2 id="4-Making-a-document">4 Making a document<a class="anchor-link" href="#4-Making-a-document">&#182;</a></h2><p>This section introduces an enhancement to the basic framework to create a structured
   <em>document</em>, with a title page, sections, and subsections.
 To accomplish this there are two basic requirement:</p>
@@ -13461,9 +13460,7 @@ the date and title.</li>
 </ul>
 <p>When the indexer is invoked, it updates both files.</p>
 <p>Here is what the index looks like:</p>
-<div class="jupydoc_fig"><figure> <img src="images/jupydoc-index.png"    alt="Image jupydoc-index.png at images/jupydoc-index.png"> 
-  <figcaption></figcaption>
-</figure></div><p style="text-align: right;"></p><p><a id="workflow"></a></p>
+<p class="errorText"> <b>Image file /home/burnett/work/jupydoc/jupydoc/jupydoc-index.png not found.</b></p><p style="text-align: right;"></p><p><a id="workflow"></a></p>
 <h2 id="6-Workflow">6 Workflow<a class="anchor-link" href="#6-Workflow">&#182;</a></h2><p>This started as a little project to allow me to better organize my research, 
 incorporating generating research notebook (not JupyterLab) entries and facilitating
 generation of presentations. Some of the motivations were hinted at in the 
@@ -13482,11 +13479,15 @@ this file.</p>
 optionally terminate.
 This is part of a realization that my early focus on this as a document-creation
 project needs to account for the more research-oriented <em>analysis</em>, where sections
-represent stages&mdash;so a failure of any stage should interrupt the process.</li>
+represent stages&mdash;so a failure of any stage should interrupt the process.
+#### 06/24/2020
+Start on the idea of making a doc class a client: quietly perform some task with link to
+as associated document. 
+Also allow a <em>version</em> of a document, with a compound name, classname.version</li>
 </ul>
 <p><hr class="thick">
-Document "jupydoc.documents.Manual", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a><br>
-Saved to <samp>/home/burnett/docs/tburnett.github.io/jupydoc.documents.Manual)</samp></p>
+Document "Manual", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a><br>
+Saved to <samp>/home/burnett/docs/tburnett.github.io/Manual)</samp></p>
 
 </div>
 </div>

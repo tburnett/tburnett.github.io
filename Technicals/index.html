@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>jupydoc.documents.Technicals</title>
+<title>Technicals</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13085,7 +13085,7 @@ div#notebook {
 <a id="top"></a></p>
 <p><a id="title_page"></a><a id="title_page"> <h1>JupyDoc technical detalis</h1> </a></p>
 <p><h2></h2></p>
-<p style="text-align: right;">2020-06-18 16:05</p><p>This document contains various technical details.</p>
+<p style="text-align: right;">2020-06-29 05:52</p><p>This document contains various technical details.</p>
 <p><a id="object_replacement"></a></p>
 <h2 id="1-Object-Replacement">1 Object Replacement<a class="anchor-link" href="#1-Object-Replacement">&#182;</a></h2><p>A key feature of jupydoc is its ability to recognize the class of a 
 variable appearing in the document, and  replace it with an instance of a "wrapper" class, 
@@ -13096,9 +13096,13 @@ An instance is in the Publisher instance.</p>
 <p>So in the constructor of a subclass, one can modify this instance, using 'update`, to change current keyword args, or 
 add a new wrapper class.
 A wrapper class is instantiated with two arguments: the instance that it will interpret, and the kwargs.</p>
+<p><strong>Note</strong>
+If the object to be displayed is an attribute of a class, <code>{self.something}</code>, then the replacer only 
+"sees" <code>self</code>, and will not process the <code>something</code>. The current solution is to create a variable local to
+the method.</p>
 <p><hr class="thick">
-Document "jupydoc.documents.Technicals", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a><br>
-Saved to <samp>/home/burnett/docs/tburnett.github.io/jupydoc.documents.Technicals)</samp></p>
+Document "Technicals", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a><br>
+Saved to <samp>/home/burnett/docs/tburnett.github.io/Technicals)</samp></p>
 
 </div>
 </div>
