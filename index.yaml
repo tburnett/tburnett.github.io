@@ -1,55 +1,12 @@
+Manual:
+  author: Toby Burnett <tburnett@uw.edu>
+  date: 2020-06-29 05:42
+  info:
+    user_info: This is available to user.
+  title: 'Jupydoc: Generate documents with Python code '
 Technicals:
   author: ''
   date: 2020-06-28 14:44
   info:
     abstract: This document contains various technical details.
-  title: JupyDoc technical detalis
-docsrc.JupyDoc:
-  author: 'Toby Burnett <tburnett@uw.edu>
-
-    University of Washington
-
-    '
-  date: 2020-06-14 13:18
-  info:
-    docname: docsrc.JupyDoc
-    filename: /nfs/farm/g/glast/u/burnett/git/jupydoc/docsrc/intro.py
-    function_names:
-    - title_page
-    - introduction
-    - variable_formatting
-    - document_structure
-    - file_structure
-    - other_formatting_options
-    - scalars
-    - list_and_dict
-    - latex
-    - images
-    - figures
-    - dataframes
-    - title
-    - sections
-    - subsections
-    - other_text
-  title: 'Jupydoc: Generate documents with Python code '
-docsrc.MultipleDocs:
-  author: 'Toby Burnett
-
-    University of Washington
-
-    tburnett@uw.edu
-
-    '
-  date: 2020-06-13 11:24
-  info:
-    docname: docsrc.MultipleDocs
-    filename: /nfs/farm/g/glast/u/burnett/git/jupydoc/docsrc/workflow.py
-  title: 'Jupydoc Support for  Multiple Documents '
-jupydoc.documents.Manual:
-  author: Toby Burnett <tburnett@uw.edu>
-  date: 2020-06-18 16:05
-  title: 'Jupydoc: Generate documents with Python code '
-jupydoc.documents.Technicals:
-  author: ''
-  date: 2020-06-18 16:05
   title: JupyDoc technical detalis

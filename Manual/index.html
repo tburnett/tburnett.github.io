@@ -13085,7 +13085,7 @@ div#notebook {
 <a id="top"></a></p>
 <p><a id="title_page"></a><a id="title_page"> <h1>Jupydoc: Generate documents with Python code </h1> </a></p>
 <p><h2></h2></p>
-<p style="text-align: right;">2020-06-29 05:42</p> 
+<p style="text-align: right;">2020-06-29 06:56</p> 
 <p style="text-align: center;" >Toby Burnett &lt;tburnett@uw.edu&gt;<br>University of Washington<br></p><p><a id="introduction"></a></p>
 <h2 id="1-Introduction">1 Introduction<a class="anchor-link" href="#1-Introduction">&#182;</a></h2><h3 id="What-it-is-not">What it is <strong>not</strong><a class="anchor-link" href="#What-it-is-not">&#182;</a></h3><p>Jupydoc, despite the name, does not explicitly depend on Jupyterlab. 
 It is not a nice way to turn 
@@ -13160,7 +13160,7 @@ Well, I'd not go that far, but the evolution to such should be easy, especially 
 formulae, plots with captions and relevant description have already been done.</p>
 </li>
 </ul>
-<p style="text-align: right;"></p><p><a id="basic"></a></p>
+<p style="text-align: right;"><a href="#top">top</a></p><p><a id="basic"></a></p>
 <h2 id="2-Basic-framework">2 Basic framework<a class="anchor-link" href="#2-Basic-framework">&#182;</a></h2><p>The simplest use case was mentioned above: Annotating plots from an analysis.
 It can be implemented as this, which can be used to test the options in the next section.</p>
 <h4 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h4><p>The following is in a Jupyter notebook cell:</p>
@@ -13212,7 +13212,7 @@ replacing dots with slashes and adding a ".py".  In this case there was no modul
             | ...</code></pre>
 <p>The folder pointed by <code>docpath</code> could contain other documents, a feature used in the multiple-document section of this 
 description.</p>
-<p style="text-align: right;"></p><p><a id="variable_formatting"></a></p>
+<p style="text-align: right;"><a href="#top">top</a></p><p><a id="variable_formatting"></a></p>
 <h2 id="3-Variable-Formatting">3 Variable Formatting<a class="anchor-link" href="#3-Variable-Formatting">&#182;</a></h2><p>The list of possible variable names comes from three sources, each one updating the previous
 set.</p>
 <ol>
@@ -13249,15 +13249,17 @@ a call `self.image(filename)':</p>
 <pre><code>launch_image = self.image( 'fermi-launch.jpg',
         caption='launch of Fermi on a Delta II on June 11, 2008", width=300)</code></pre>
 <p>referred to in this text as "{launch_image}", will produce this:</p>
-<p class="errorText"> <b>Image file /home/burnett/work/jupydoc/jupydoc/fermi-launch.jpg not found.</b></p><p>This uses the <a href="https://www.w3schools.com/tags/tag_figure.asp">HTML5 <code>figure</code> tag</a>,
+<div class="jupydoc_fig"><figure> <img src="images/fermi-launch.jpg"  width=300  alt="Image fermi-launch.jpg at images/fermi-launch.jpg"> 
+  <figcaption>launch of Fermi on a Delta II on June 11, 2008</figcaption>
+</figure></div><p>This uses the <a href="https://www.w3schools.com/tags/tag_figure.asp">HTML5 <code>figure</code> tag</a>,
 which manages a caption. One can also set the width or height, 
 see the discussion on the 
 <a href="https://www.w3schools.com/tags/tag_img.asp">HTML <code>img</code> tag</a>.</p>
 <p>The full path for the name is relative to the source file, except this 
 class specified</p>
 
-<pre><code>self.image_folder = os.path.join(self.path, '../images')</code></pre>
-<p>in its class <code>__init__</code>.</p>
+<pre><code>self.image_folder = os.path.join(self.path, '$HOME/images')</code></pre>
+<p>in its otherwise optional class <code>__init__</code> function.</p>
 <h3 id="3.5-Figures">3.5 Figures<a class="anchor-link" href="#3.5-Figures">&#182;</a></h3><p><em>This feature requires that <code>matplotlib</code> has been installed.</em></p>
 <p>Any number of Matplotlib Figure objects can be included.
 An entry "{fig1}", along with code that defines <code>fig1</code> like this:</p>
@@ -13352,7 +13354,7 @@ with a corresponding  "{test_string}" will look like:
 So, this code line, 
 <code>shell_test = self.shell('env | grep PYTHON')</code>
  produces this:</p>
-<p style="margin-left: 5%"><pre>CONDA_PYTHON_EXE=/home/burnett/miniconda3/bin/python<br>PYTHONPATH=/home/burnett/work/jupydoc<br></pre></p><p style="text-align: right;"></p><p><a id="making_a_document"></a></p>
+<p style="margin-left: 5%"><pre>CONDA_PYTHON_EXE=/home/burnett/miniconda3/bin/python<br>PYTHONPATH=/home/burnett/work/jupydoc<br></pre></p><p style="text-align: right;"><a href="#top">top</a></p><p><a id="making_a_document"></a></p>
 <h2 id="4-Making-a-document">4 Making a document<a class="anchor-link" href="#4-Making-a-document">&#182;</a></h2><p>This section introduces an enhancement to the basic framework to create a structured
   <em>document</em>, with a title page, sections, and subsections.
 To accomplish this there are two basic requirement:</p>
@@ -13401,7 +13403,7 @@ The HTML document is a folder, containing the the document in a file <code>index
 if needed. The name of that folder, called <code>docname</code> is by default constructed by appending the class name to the
 the Python <em>module</em> name, itself related to the <em>file</em> name by
 replacing dots with slashes and adding a ".py".  The folder that it goes into is set by "docpath".</p>
-<p style="text-align: right;"></p><p><a id="multiple_documents"></a></p>
+<p style="text-align: right;"><a href="#top">top</a></p><p><a id="multiple_documents"></a></p>
 <h2 id="5-Multiple-Documents">5 Multiple Documents<a class="anchor-link" href="#5-Multiple-Documents">&#182;</a></h2><p>This section describes the enhancement provided by <code>jupydoc.DocMan</code> to manage multiple documents, both the source files, 
 or Python modules, and any generated documents.</p>
 <h3 id="5.1-Setup">5.1 Setup<a class="anchor-link" href="#5.1-Setup">&#182;</a></h3><p>Here is a  Jupyter notebook cell:</p>
@@ -13460,7 +13462,9 @@ the date and title.</li>
 </ul>
 <p>When the indexer is invoked, it updates both files.</p>
 <p>Here is what the index looks like:</p>
-<p class="errorText"> <b>Image file /home/burnett/work/jupydoc/jupydoc/jupydoc-index.png not found.</b></p><p style="text-align: right;"></p><p><a id="workflow"></a></p>
+<div class="jupydoc_fig"><figure> <img src="images/jupydoc-index.png"    alt="Image jupydoc-index.png at images/jupydoc-index.png"> 
+  <figcaption></figcaption>
+</figure></div><p style="text-align: right;"><a href="#top">top</a></p><p><a id="workflow"></a></p>
 <h2 id="6-Workflow">6 Workflow<a class="anchor-link" href="#6-Workflow">&#182;</a></h2><p>This started as a little project to allow me to better organize my research, 
 incorporating generating research notebook (not JupyterLab) entries and facilitating
 generation of presentations. Some of the motivations were hinted at in the 
