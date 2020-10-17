@@ -13077,26 +13077,39 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><style >
+<style>
  .jupydoc_fig { text-align: center; }
  .errorText {color:red;}
-  hr.thick{border-top: 3px solid black;}
-</style>
-<a id="top"></a></p>
+  hr.thick{border-top: 3px solid black;}  
+</style><p><a id="top"></a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="title_page"></a><a id="title_page"> <h1>Jupydoc: Generate documents with Python code </h1> </a></p>
 <p><h2></h2></p>
-<p style="text-align: right;">2020-06-29 10:48</p> 
-<p style="text-align: center;" >Toby Burnett &lt;tburnett@uw.edu&gt;<br>University of Washington<br></p><p><a id="introduction"></a></p>
-<h2 id="1-Introduction">1 Introduction<a class="anchor-link" href="#1-Introduction">&#182;</a></h2><h3 id="What-it-is-not">What it is <strong>not</strong><a class="anchor-link" href="#What-it-is-not">&#182;</a></h3><p>Jupydoc, despite the name, does not explicitly depend on Jupyterlab. 
+<p style="text-align: right;">2020-10-17 10:55</p> 
+<p style="text-align: center;" >Toby Burnett &lt;tburnett@uw.edu&gt;<br>University of Washington<br></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="introduction"></a></p>
+<h2>1. Introduction</h2><h3 id="What-it-is-not">What it is <strong>not</strong><a class="anchor-link" href="#What-it-is-not">&#182;</a></h3><p>Jupydoc, despite the name, does not explicitly depend on Jupyterlab. 
 It is not a nice way to turn 
 detailed notebooks into documents: If you want that, see this 
 <a href="http://blog.juliusschulz.de/blog/ultimate-ipython-notebook">system</a>.</p>
 <h3 id="What-is-it,-and-how-does-it-work?">What is it, and how does it work?<a class="anchor-link" href="#What-is-it,-and-how-does-it-work?">&#182;</a></h3><p>Jupydoc is not centered on a jupyterlab notebook. It is designed to make it easy to <em>develop</em> a
 document with a noteboook, but the <em>medium</em> is a Python class, not a  notebook. Since it is
-based on code, that implies developing the code at well&mdash;the document 
-may represent the code development itself.</p>
-<p>While designed to be used to develop documents based on code in a JupyterLab enviornment,
-It does not actually require it, but depends on IPython and nbconvert.</p>
+based on code, to the extent that details of the document depend on execution of the code,
+the document may represent the code development itself.</p>
+<p>So while it is designed to be used to develop documents based on code in a JupyterLab environment,
+It does not actually require that, but does depend on the IPython and nbconvert components.</p>
 <p>Some points to illustrate the design and operation are:</p>
 <ul>
 <li><p><strong>Code and markdown cells in a Jupyterlab notebook</strong><br>
@@ -13158,16 +13171,23 @@ needing PowerPoint to make presentations seem to be over, so the document can be
 <li><p><strong>Publication?</strong><br>
 Well, I'd not go that far, but the evolution to such should be easy, especially if relevant LaTex
 formulae, plots with captions and relevant description have already been done.</p>
-</li>
+<p style="text-align: right;"><a href="#top">top</a></p></li>
 </ul>
-<p style="text-align: right;"><a href="#top">top</a></p><p><a id="basic"></a></p>
-<h2 id="2-Basic-framework">2 Basic framework<a class="anchor-link" href="#2-Basic-framework">&#182;</a></h2><p>The simplest use case was mentioned above: Annotating plots from an analysis.
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="basic"></a></p>
+<h2>2. Basic framework</h2><p>The simplest use case was mentioned above: Annotating plots from an analysis.
 It can be implemented as this, which can be used to test the options in the next section.</p>
 <h4 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h4><p>The following is in a Jupyter notebook cell:</p>
 
 <pre><code>from jupydoc import Publisher
 
-class Basic(publisher.Publisher):
+class Basic(Publisher):
 
     def doit(self):
         """This is the output from a minimal example
@@ -13212,8 +13232,15 @@ replacing dots with slashes and adding a ".py".  In this case there was no modul
             | ...</code></pre>
 <p>The folder pointed by <code>docpath</code> could contain other documents, a feature used in the multiple-document section of this 
 description.</p>
-<p style="text-align: right;"><a href="#top">top</a></p><p><a id="variable_formatting"></a></p>
-<h2 id="3-Variable-Formatting">3 Variable Formatting<a class="anchor-link" href="#3-Variable-Formatting">&#182;</a></h2><p>The list of possible variable names comes from three sources, each one updating the previous
+<p style="text-align: right;"><a href="#top">top</a></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="variable_formatting"></a></p>
+<h2>3. Variable Formatting </h2><p>The list of possible variable names comes from three sources, each one updating the previous
 set.</p>
 <ol>
 <li>Built-in. A class variable <code>predefined</code>. This is set to the useful values discussed here,
@@ -13224,14 +13251,38 @@ in the argument list, especially "self". (So predefined variables are also <code
 These may override any of the previous.</li>
 </ol>
 <p>This section examines formating options for such variables in curly brackets.</p>
-<h3 id="3.1-Scalars">3.1 Scalars<a class="anchor-link" href="#3.1-Scalars">&#182;</a></h3><p>A scalar variable, say from an expression in the code <code>q=1/3</code>, can be interpreted in the docstring  with <code>"q={q:.3f}"</code>, resulting in</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="scalars">3.1 Scalars   </h3>
+A scalar variable, say from an expression in the code <code>q=1/3</code>, can be interpreted in the docstring  with <code>"q={q:.3f}"</code>, resulting in</p>
 <p style="margin-left: 5%">
 q=0.333.        
-</p><h3 id="3.2-Python-lists-and-dicts">3.2 Python lists and dicts<a class="anchor-link" href="#3.2-Python-lists-and-dicts">&#182;</a></h3><p>These basic Python data structures are represented using the "pretty printer"
+</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="list_and_dict">3.2 Python lists and dicts </h3>
+These basic Python data structures are represented using the "pretty printer"
 <a href="https://docs.python.org/3/library/pprint.html"><code>pprint</code></a></p>
 <p>For example a list generate by <code>n = list(range(1,11))</code> appears thus:  <p style="margin-left: 5%"><samp>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</samp></p>.</p>
 <p>And a dict generated by <code>d = dict((i,2**i) for i in n)</code> is this: <p style="margin-left: 5%"><samp>{1: 2, 2: 4, 3: 8, 4: 16, 5: 32, 6: 64, 7: 128, 8: 256, 9: 512, 10: 1024}</samp></p></p>
-<h3 id="3.3-LaTex">3.3 LaTex<a class="anchor-link" href="#3.3-LaTex">&#182;</a></h3><p>Jupyter-style markdown can contain LaTex expressions. For the following, unlike the simple "<code>$E=mc^2$</code>" 
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="latex">3.3 LaTex </h3>
+Jupyter-style markdown can contain LaTex expressions. For the following, unlike the simple "<code>$E=mc^2$</code>" 
 &rarr; $E=mc^2$ , it is  necessary that the docstring be preceded by an "r". So,</p>
 
 <pre><code>\begin{align*}
@@ -13242,16 +13293,23 @@ q=0.333.
     \sin^2\theta + \cos^2\theta =1
     \end{align*}</p>
 <p>Evaluation of variables can occur within the expression as well.</p>
-<h3 id="3.4-Images">3.4 Images<a class="anchor-link" href="#3.4-Images">&#182;</a></h3><p>Images be inserted into the docucument, as follows: 
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="images">3.4 Images </h3>
+Images be inserted into the docucument, as follows: 
 Using the jupydoc function <samp>image</samp>, set a variable with
 a call `self.image(filename)':</p>
 
 <pre><code>launch_image = self.image( 'fermi-launch.jpg',
         caption='launch of Fermi on a Delta II on June 11, 2008", width=300)</code></pre>
 <p>referred to in this text as "{launch_image}", will produce this:</p>
-<div class="jupydoc_fig"><figure> <img src="images/fermi-launch.jpg"  width=300  alt="Image fermi-launch.jpg at images/fermi-launch.jpg"> 
-  <figcaption>launch of $Fermi$ (n&eacute;e GLAST) on a Delta II on June 11, 2008</figcaption>
-</figure></div><p>This uses the <a href="https://www.w3schools.com/tags/tag_figure.asp">HTML5 <code>figure</code> tag</a>,
+<div class="jupydoc_fig"> <a href="images/fermi-launch.jpg">  <figure>    <img src="images/fermi-launch.jpg"  width=300       alt="Image fermi-launch.jpg at images/fermi-launch.jpg">
+  <figcaption><b>Figure 1</b>. launch of $Fermi$ (n&eacute;e GLAST) on a Delta II on June 11, 2008</figcaption></figure></a></div><p>This uses the <a href="https://www.w3schools.com/tags/tag_figure.asp">HTML5 <code>figure</code> tag</a>,
 which manages a caption. One can also set the width or height, 
 see the discussion on the 
 <a href="https://www.w3schools.com/tags/tag_img.asp">HTML <code>img</code> tag</a>.</p>
@@ -13260,7 +13318,15 @@ class specified</p>
 
 <pre><code>self.image_folder = os.path.join(self.path, '$HOME/images')</code></pre>
 <p>in its otherwise optional class <code>__init__</code> function.</p>
-<h3 id="3.5-Figures">3.5 Figures<a class="anchor-link" href="#3.5-Figures">&#182;</a></h3><p><em>This feature requires that <code>matplotlib</code> has been installed.</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="figures">3.5 Figures </h3>
+<em>This feature requires that <code>matplotlib</code> has been installed.</em></p>
 <p>Any number of Matplotlib Figure objects can be included.
 An entry "{fig1}", along with code that defines <code>fig1</code> like this:</p>
 
@@ -13271,15 +13337,23 @@ ax.set(xlabel='$x$', ylabel='$x^2$', title=f'figure {fig1.number}')
 fig1.caption='''Caption for Fig. {fig1.number}, which
         shows $x^2$ vs. $x$.'''</code></pre>
 <p>produces:</p>
-<div class="jupydoc_fig"><figure> <img src="figs/fig_01.png" alt="Figure 1 at figs/fig_01.png"> <figcaption>Caption for Fig. 1, which
+<div class="jupydoc_fig"><a href="figs/fig_02.png"<figure>   <img src="figs/fig_02.png" alt="Figure 2 at figs/fig_02.png" > <figcaption><b>Figure 2</b>. Caption for Fig. 2, which
                 shows $x^2$ vs. $x$.    
-            </figcaption></figure></div><p>Note the convenience of defining a caption by adding the text as an attribute of
+            </figcaption></figure></a></div><p>Note the convenience of defining a caption by adding the text as an attribute of
 the Figure object.<br>
 The <code>self.newfignum()</code> returns a new figure number. It is necessary to for all
 the figures in a section to be unique. But the actual number is set to be sequential for
 the whole document.
 Then number can be referred to in the text as <code>{fig1.number}</code>.</p>
-<h3 id="3.6-DataFrames">3.6 DataFrames<a class="anchor-link" href="#3.6-DataFrames">&#182;</a></h3><p><em>(This feature is only available if <a href="https://pandas.pydata.org/">pandas</a> is installed)</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="dataframes">3.6 DataFrames </h3>
+<em>(This feature is only available if <a href="https://pandas.pydata.org/">pandas</a> is installed)</em></p>
 <p>The code, from <a href="https://www.geeksforgeeks.org/python-pandas-dataframe/">this tutorial</a>:</p>
 
 <pre><code>    # intialise data of lists.
@@ -13329,13 +13403,20 @@ Then number can be referred to in the text as <code>{fig1.number}</code>.</p>
     </tr>
   </tbody>
 </table>
-<p>4 rows × 2 columns</p>
-</div><h3 id="3.7-Other-Formatting-options">3.7 Other Formatting options<a class="anchor-link" href="#3.7-Other-Formatting-options">&#182;</a></h3><p>Markdown text is designed to be readable and easy to compose, a huge difference from
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="other_formatting_options">3.7 Other Formatting options </h3>
+Markdown text is designed to be readable and easy to compose, a huge difference from
 the formal HTML, to which it is translated. One can of course insert HTML 
 directly into the text, of course compromising the readability, and requiring HTML knowledge. 
 Jupydoc processing allows inserting predefined strings when processing the docstring text, 
 which represents a  compromise.</p>
-<h4 id="Indenting">Indenting<a class="anchor-link" href="#Indenting">&#182;</a></h4><p>Indenting a paragraph is not directly possible with markdown. But we can easily insert the appropriate HTML</p>
+<h3 id="Indenting">Indenting<a class="anchor-link" href="#Indenting">&#182;</a></h3><p>Indenting a paragraph is not directly possible with markdown. But we can easily insert the appropriate HTML</p>
 <ul>
 <li>{indent}: <code>&lt;p style="margin-left: 5%"&gt;</code> &mdash;the margin is predefined, easily changed by the user</li>
 <li>{endp}: <code>&lt;/p&gt;</code> &mdash; Since it represents the end of a paragraph.</li>
@@ -13344,28 +13425,59 @@ which represents a  compromise.</p>
 <p style="margin-left: 5%">
 This paragraph is indented 5%. It was preceded by {indent} and followed by {endl}.
 <br>To start a new line in this, or any other paragraph, insert "&lt;br&gt;". 
-</p><h4 id="Preformatted-text">Preformatted text<a class="anchor-link" href="#Preformatted-text">&#182;</a></h4><p>The function <code>monospace(*text*)</code> is provided to achieve insertion of 
+</p><h3 id="Preformatted-text-from-other-sources">Preformatted text from other sources<a class="anchor-link" href="#Preformatted-text-from-other-sources">&#182;</a></h3><p>There are several ways to introduce text from other sources, all of which use the monospace font</p>
+<h4 id="monospace">monospace<a class="anchor-link" href="#monospace">&#182;</a></h4><p>The function <code>monospace(*text*)</code> is provided to achieve insertion of 
 "preformatted" text with a monospace font.
 It can be invoked with a text string, or any object which returns a description of itself via its class <code>__str__</code> 
-function. For example "test_string = self.monospace('This is a multi-line test.\nAfter a newline.')", 
-with a corresponding  "{test_string}" will look like:
-         <a href="top">top</a></p>
-<p style="margin-left: 5%"><pre>This is a multi-line test.<br>After a newline.</pre></p><h4 id="Shell-output">Shell output<a class="anchor-link" href="#Shell-output">&#182;</a></h4><p>A function <code>shell</code> will execute one or more shell commands, return the preformatted text.
+function.</p>
+<p>It has options <code>summary</code> and <code>open</code> to allow collapsible output. These use the 
+<a href="https://www.w3schools.com/TAGS/tag_details.asp">HTML5 <code>&lt;details&gt;</code> tag</a>. Specifically, if <code>summary</code> is set to a string,
+that will be displayed with a clickable diamond. The output will be hidden unless there is also a <code>open=True</code>.</p>
+<p>For example</p>
+
+<pre><code>test_string = '\n'.join([f'This is line {i}' for i in range(10)])
+mono_string = self.monospace(test_string, summary='monospace demo')</code></pre>
+<p>Produces this:</p>
+<p><details ><summary> monospace demo </summary> <p style="margin-left: 5%"><pre>This is line 0<br>This is line 1<br>This is line 2<br>This is line 3<br>This is line 4<br>This is line 5<br>This is line 6<br>This is line 7<br>This is line 8<br>This is line 9</pre></p> </details></p>
+<p>The following all invoke <code>monospace</code>, allowing also <code>summary</code> and <code>open</code> args.</p>
+<h4 id="shell:-capture-output-from-a-shell-command">shell: capture output from a shell command<a class="anchor-link" href="#shell:-capture-output-from-a-shell-command">&#182;</a></h4><p>The function <code>shell</code> will execute one or more shell commands, return the preformatted text.
 So, this code line, 
 <code>shell_test = self.shell('env | grep PYTHON')</code>
  produces this:</p>
-<p style="margin-left: 5%"><pre>CONDA_PYTHON_EXE=/home/burnett/miniconda3/bin/python<br>PYTHONPATH=/home/burnett/work/jupydoc<br></pre></p><p style="text-align: right;"><a href="#top">top</a></p><p><a id="making_a_document"></a></p>
-<h2 id="4-Making-a-document">4 Making a document<a class="anchor-link" href="#4-Making-a-document">&#182;</a></h2><p>This section introduces an enhancement to the basic framework to create a structured
+<p style="margin-left: 5%"><pre>CONDA_PYTHON_EXE=/home/burnett/miniconda3/bin/python<br>PYTHONPATH=/mnt/c/users/thbur/OneDrive/work/jupydoc:/mnt/c/users/thbur/OneDrive/work/lat/<br></pre></p><h4 id="capture_print:-capture-printout">capture_print: capture printout<a class="anchor-link" href="#capture_print:-capture-printout">&#182;</a></h4><p>To execute code containg uses of the print function, that is, writing to sys.stdout,
+the function <code>capture_print</code> is provided. As an example</p>
+
+<pre><code>with self.capture_print(summary='captured printout') as captured_text:
+    print(test_string)</code></pre>
+<p>Then {captured_text} will be rendered as:</p>
+<p><details ><summary> captured printout </summary> <p style="margin-left: 5%"><pre>This is line 0<br>This is line 1<br>This is line 2<br>This is line 3<br>This is line 4<br>This is line 5<br>This is line 6<br>This is line 7<br>This is line 8<br>This is line 9<br></pre></p> </details></p>
+<p style="text-align: right;"><a href="#top">top</a></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="making_a_document"></a></p>
+<h2>4. Making a document</h2><p>This section introduces an enhancement to the basic framework to create a structured
   <em>document</em>, with a title page, sections, and subsections.
 To accomplish this there are two basic requirement:</p>
 <ol>
 <li>the class needs to inherit from <code>DocPublisher</code>, </li>
 <li>the layout of the document must be defined in the <em>class</em> docstring. </li>
 </ol>
-<h3 id="4.1-Class-Docstring">4.1 Class Docstring<a class="anchor-link" href="#4.1-Class-Docstring">&#182;</a></h3><p>The docstring is in <a href="http://zetcode.com/python/yaml/"><code>yaml</code></a>, a human-readable data-serialization language
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="class_docstring">4.1 Class Docstring </h3>
+The docstring is in <a href="http://zetcode.com/python/yaml/"><code>yaml</code></a>, a human-readable data-serialization language
 often used for configuration files. The following items, all optional, are used to define the document:</p>
 <ul>
-<li><strong>title</strong> If more than one line, the second is a subtitle</li>
+<li><strong>title</strong> If more than one line, the second is a subtitle. Note that this entry may contain curly-bracket fields with class variable names. One example is "{version}". </li>
 <li><strong>author</strong> Will be centered.</li>
 <li><strong>sections</strong> A single string with names of functions corresponding to sections and possible subsections that will be parsed</li>
 <li><strong>abstract</strong> Can be any length.</li>
@@ -13383,7 +13495,15 @@ sections: introduction
 <p>Any unrecognized fields are added to attributes of the class, available for
 user configuration perhaps. For this, it is 
 <code>user_info</code>: "This is available to user."</p>
-<h3 id="4.2-Document-Generation">4.2 Document Generation<a class="anchor-link" href="#4.2-Document-Generation">&#182;</a></h3><p>Creation of the document is performed by invoking the instantiated call. <code>DocPublisher</code> itself allows for a demonstration:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="document_generation">4.2 Document Generation </h3>
+Creation of the document is performed by invoking the instantiated call. <code>DocPublisher</code> itself allows for a demonstration:</p>
 
 <pre><code>from jupydoc import DocPublisher
 doc = DocPublisher()
@@ -13398,15 +13518,38 @@ code. If an output has been set, it will always generate the full HTML version. 
 as above, the name of the function whose output to examine, or the section or subsection number. In that case, a number that 
 is beyond the range of sections or subsections will select the last on for display. For example, if section 4 has 5 subsections,
 "4.9" will select 4.5 for display. "4.0" displays section 4 and all its subsections.</p>
-<h3 id="4.3-Output-Specification">4.3 Output Specification<a class="anchor-link" href="#4.3-Output-Specification">&#182;</a></h3><p>The call described here runs the <code>save()</code> function described in the <a href=#basic>Basic Framework section</a>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="output_specification">4.3 Output Specification </h3>
+The call described here runs the <code>save()</code> function described in the <a href=#basic>Basic Framework section</a>
 The HTML document is a folder, containing the the document in a file <code>index.html</code> and folders <code>figures</code> or <code>images</code> 
 if needed. The name of that folder, called <code>docname</code> is by default constructed by appending the class name to the
 the Python <em>module</em> name, itself related to the <em>file</em> name by
 replacing dots with slashes and adding a ".py".  The folder that it goes into is set by "docpath".</p>
-<p style="text-align: right;"><a href="#top">top</a></p><p><a id="multiple_documents"></a></p>
-<h2 id="5-Multiple-Documents">5 Multiple Documents<a class="anchor-link" href="#5-Multiple-Documents">&#182;</a></h2><p>This section describes the enhancement provided by <code>jupydoc.DocMan</code> to manage multiple documents, both the source files, 
+<p style="text-align: right;"><a href="#top">top</a></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="multiple_documents"></a></p>
+<h2>5. Multiple Documents</h2><p>This section describes the enhancement provided by <code>jupydoc.DocMan</code> to manage multiple documents, both the source files, 
 or Python modules, and any generated documents.</p>
-<h3 id="5.1-Setup">5.1 Setup<a class="anchor-link" href="#5.1-Setup">&#182;</a></h3><p>Here is a  Jupyter notebook cell:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="docman_setup">5.1 Setup </h3>
+Here is a  Jupyter notebook cell:</p>
 
 <pre><code>from jupydoc import DocMan
 dm = DocMan('jupydoc')
@@ -13440,7 +13583,15 @@ had help for the function.</p>
 convey the multiple document orientation.  It can be defined in the by a <code>docspath=</code> in the top-level package's <code>__init__.py</code>, which would
 be overridden with an argument to the <code>DocMan</code> instantiation. 
 If the declaration is relative, it will be with respect to the top-level package.</p>
-<h3 id="5.2-Usage">5.2 Usage<a class="anchor-link" href="#5.2-Usage">&#182;</a></h3><p>With the DocMan instance generated in the setup phase, the following instantiates
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="docman_usage">5.2 Usage </h3>
+With the DocMan instance generated in the setup phase, the following instantiates
 a document instance "JupyDoc", as described in the <a href="#making_a_document">
 "Making a Document" section</a>.</p>
 
@@ -13449,7 +13600,15 @@ a document instance "JupyDoc", as described in the <a href="#making_a_document">
 containing the class is reloaded first, relieving the need to separately manage that
 in the notebook. So changes to source are immediately made, and compilation errors
 reported.</p>
-<h3 id="5.3-Web-site">5.3 Web site<a class="anchor-link" href="#5.3-Web-site">&#182;</a></h3><p>After <code>DocMan</code> instantiates a document class, before returning it to the user, 
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><h3 id="docman_web">5.3 Web site </h3>
+After <code>DocMan</code> instantiates a document class, before returning it to the user, 
 it adds an <em>indexer</em> attribute, a <code>DocIndex</code> instance. Then, before the document
 saves itself, it invokes the indexer.</p>
 <p>The indexer manages the folder <code>docspath</code>, containg the document as website.</p>
@@ -13462,9 +13621,8 @@ the date and title.</li>
 </ul>
 <p>When the indexer is invoked, it updates both files.</p>
 <p>Here is what the index looks like:</p>
-<div class="jupydoc_fig"><figure> <img src="images/jupydoc-index.png"    alt="Image jupydoc-index.png at images/jupydoc-index.png"> 
-  <figcaption></figcaption>
-</figure></div><h4>Linked documents&mdash;client-mode</h4>
+<div class="jupydoc_fig"> <a href="images/jupydoc-index.png">  <figure>    <img src="images/jupydoc-index.png"         alt="Image jupydoc-index.png at images/jupydoc-index.png">
+  <figcaption><b>Figure 3</b>. </figcaption></figure></a></div><h4>Linked documents&mdash;client-mode</h4>
 <p>One can insert links to other documents saved by <code>DocMan</code>. This is especially useful in an 
 analysis mode where the linked document was generated in conjunction with a previous 
 analysis stage, perhaps preparing a dataset, available as attributes of the object.</p>
@@ -13478,8 +13636,15 @@ analysis stage, perhaps preparing a dataset, available as attributes of the obje
 the other document object itself.</p>
 <p>The other document can detect that it was invoked in this way with an attribute
 <code>client_mode</code>, and not regenerate the document if it exists.</p>
-<p style="text-align: right;"><a href="#top">top</a></p><p><a id="workflow"></a></p>
-<h2 id="6-Workflow">6 Workflow<a class="anchor-link" href="#6-Workflow">&#182;</a></h2><p>This started as a little project to allow me to better organize my research, 
+<p style="text-align: right;"><a href="#top">top</a></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="workflow"></a></p>
+<h2>6. Workflow</h2><p>This started as a little project to allow me to better organize my research, 
 incorporating generating research notebook (not JupyterLab) entries and facilitating
 generation of presentations. Some of the motivations were hinted at in the 
 <a href="#introduction"> introduction</a>.</p>
@@ -13501,11 +13666,22 @@ represent stages&mdash;so a failure of any stage should interrupt the process.
 #### 06/24/2020
 Start on the idea of making a doc class a client: quietly perform some task with link to
 as associated document. 
-Also allow a <em>version</em> of a document, with a compound name, classname.version</li>
+Also allow a <em>version</em> of a document, with a compound name, classname.version
+#### 07/04/2020
+Implement <code>&lt;detais&gt;' for</code>monospace<code>output, including the functions</code>shell<code>and</code>capture_print`.
+#### 07/15/2020
+Realize that I want it to be easy for a document to be a simple note, appropriate for a sidebar.
+To do this, I define a "title_page" function, with no sections. Maybe a separate class Memo?<p style="text-align: right;"><a href="#top">top</a></p></li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><hr class="thick">
-Document "Manual", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a><br>
-Saved to <samp>/home/burnett/docs/tburnett.github.io/Manual)</samp></p>
+Document "Manual",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jupydoc/documents.py</samp>, created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a> on 2020-10-17 10:55<br>Saved to <samp>/mnt/c/Users/thbur/OneDrive/work/tburnett.github.io/Manual</samp></p>
 
 </div>
 </div>

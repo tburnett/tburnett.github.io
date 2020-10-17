@@ -13077,22 +13077,42 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><style >
+<style>
  .jupydoc_fig { text-align: center; }
  .errorText {color:red;}
-  hr.thick{border-top: 3px solid black;}
-</style>
-<a id="top"></a></p>
+  hr.thick{border-top: 3px solid black;}  
+</style><p><a id="top"></a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="title_page"></a><a id="title_page"> <h1>JupyDoc technical detalis</h1> </a></p>
 <p><h2></h2></p>
-<p style="text-align: right;">2020-06-29 10:58</p><p>This document contains various technical details.</p>
+<p style="text-align: right;">2020-10-17 10:55</p><p>This document contains various technical details.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="client_example"></a></p>
-<h2 id="1-Client-Example">1 Client Example<a class="anchor-link" href="#1-Client-Example">&#182;</a></h2><p>If this document was invoked to serve as a client, as the Manual document does,
+<h2>1. Client Example</h2><p>If this document was invoked to serve as a client, as the Manual document does,
 its attribute <code>client_mode</code> would be set: Now it is in fact <strong>True</strong>.</p>
 <p>To set this, the <code>DocMan</code> function call needs to have a parameter <code>as_client</code> set 
 to True.</p>
-<p style="text-align: right;"><a href="#top">top</a></p><p><a id="object_replacement"></a></p>
-<h2 id="2-Object-Replacement">2 Object Replacement<a class="anchor-link" href="#2-Object-Replacement">&#182;</a></h2><p>A key feature of jupydoc is its ability to recognize the class of a 
+<p style="text-align: right;"><a href="#top">top</a></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a id="object_replacement"></a></p>
+<h2>2. Object Replacement</h2><p>A key feature of jupydoc is its ability to recognize the class of a 
 variable appearing in the document, and  replace it with an instance of a "wrapper" class, 
 which implements a alternative to the <code>__str__</code> method of the 
 original class. This is done by default for Figure, DataFrame and dict.
@@ -13105,9 +13125,15 @@ A wrapper class is instantiated with two arguments: the instance that it will in
 If the object to be displayed is an attribute of a class, <code>{self.something}</code>, then the replacer only 
 "sees" <code>self</code>, and will not process the <code>something</code>. The current solution is to create a variable local to
 the method.</p>
+<p style="text-align: right;"><a href="#top">top</a></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><hr class="thick">
-Document "Technicals", created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a><br>
-Saved to <samp>/home/burnett/docs/tburnett.github.io/Technicals)</samp></p>
+Document "Technicals",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jupydoc/documents.py</samp>, created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a> on 2020-10-17 10:55<br>Saved to <samp>/mnt/c/Users/thbur/OneDrive/work/tburnett.github.io/Technicals</samp></p>
 
 </div>
 </div>
