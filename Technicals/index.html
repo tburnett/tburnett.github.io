@@ -13077,10 +13077,14 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<style>
+<style type="text/css">
  .jupydoc_fig { text-align: center; }
  .errorText {color:red;}
   hr.thick{border-top: 3px solid black;}  
+ .rendered_html tr, .rendered_html th, .rendered_html td {
+    text-align: left;
+    vertical-align: top;
+}
 </style><p><a id="top"></a></p>
 
 </div>
@@ -13091,8 +13095,8 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="title_page"></a><a id="title_page"> <h1>JupyDoc technical detalis</h1> </a></p>
 <p><h2></h2></p>
-<p style="text-align: right;">2020-10-17 10:55</p><p>This document contains various technical details.</p>
-
+<p style="text-align: right;">2020-11-14 11:09</p><p>This document contains various technical details.</p>
+<p style="text-align: right;"><a href="../index.html?skipDecoration">back to index</a></p>
 </div>
 </div>
 </div>
@@ -13101,7 +13105,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="client_example"></a></p>
 <h2>1. Client Example</h2><p>If this document was invoked to serve as a client, as the Manual document does,
-its attribute <code>client_mode</code> would be set: Now it is in fact <strong>True</strong>.</p>
+its attribute <code>client_mode</code> would be set: Now it is in fact <strong>False</strong>.</p>
 <p>To set this, the <code>DocMan</code> function call needs to have a parameter <code>as_client</code> set 
 to True.</p>
 <p style="text-align: right;"><a href="#top">top</a></p>
@@ -13133,8 +13137,56 @@ the method.</p>
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><hr class="thick">
-Document "Technicals",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jupydoc/documents.py</samp>, created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a> on 2020-10-17 10:55<br>Saved to <samp>/mnt/c/Users/thbur/OneDrive/work/tburnett.github.io/Technicals</samp></p>
+Document "Technicals",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jupydoc/documents.py</samp>, created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a> on 2020-11-14 11:09<br>Saved to <samp>/mnt/c/Users/thbur/OneDrive/work/tburnett.github.io/Technicals</samp></p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<details> <summary> Python source code </summary> <pre>class Technicals(DocPublisher):
+    """
+    title: JupyDoc technical detalis
+    sections: client_example object_replacement
+
+    abstract: This document contains various technical details.
+    """
+    def client_example(self):
+        """Client Example
+
+        If this document was invoked to serve as a client, as the Manual document does,
+        its attribute `client_mode` would be set: Now it is in fact **{self.client_mode}**.
+
+        To set this, the `DocMan` function call needs to have a parameter `as_client` set 
+        to True. 
+
+        """
+        self.publishme()
+
+    def object_replacement(self):
+        """Object Replacement
+
+        A key feature of jupydoc is its ability to recognize the class of a 
+        variable appearing in the document, and  replace it with an instance of a "wrapper" class, 
+        which implements a alternative to the `__str__` method of the 
+        original class. This is done by default for Figure, DataFrame and dict.
+        It happens in the class `jupydoc.replacer.ObjectReplacer`, which inherits from `dict`. 
+        An instance is in the Publisher instance.
+
+
+        So in the constructor of a subclass, one can modify this instance, using 'update`, to change current keyword args, or 
+        add a new wrapper class.
+        A wrapper class is instantiated with two arguments: the instance that it will interpret, and the kwargs. 
+
+        **Note**
+        If the object to be displayed is an attribute of a class, `{{self.something}}`, then the replacer only 
+        "sees" `self`, and will not process the `something`. The current solution is to create a variable local to
+        the method. 
+        """
+        #---------------------------------------------------------------------------------
+        self.publishme()
+</pre></details>
 </div>
 </div>
 </div>
