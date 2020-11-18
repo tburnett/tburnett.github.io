@@ -13095,10 +13095,10 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a id="title_page"></a><a id="title_page"> <h1>Jupydoc: Generate documents with Python code </h1> </a></p>
 <p><h2></h2></p>
-<p style="text-align: right;">2020-11-14 11:01</p> 
+<p style="text-align: right;">2020-11-17 11:41</p> 
 <p style="text-align: center;" >Toby Burnett &lt;tburnett@uw.edu&gt;<br>University of Washington<br></p><p>This is a comprehensive manual for the Jupydoc document-creation system, 
 which both describes and tests all its features.</p>
-<p style="text-align: right;"><a href="../index.html?skipDecoration">back to index</a></p>
+<p style="text-align: right;"><a href="../">back</a></p>
 </div>
 </div>
 </div>
@@ -13189,28 +13189,12 @@ formulae, plots with captions and relevant description have already been done.</
 <p><a id="basic"></a></p>
 <h2>2. Basic framework</h2><p>The simplest use case was mentioned above: Annotating plots from an analysis.
 It can be implemented as this, which can be used to test the options in the next section.</p>
-<h4 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h4><p>The following is in a Jupyter notebook cell:</p>
-
-<pre><code>from jupydoc import Publisher
-
-class Basic(Publisher):
-
-    def doit(self):
-        """This is the output from a minimal example
-
-        The value of $x$ is {x}, but {2*x} is not recognized.
-        """
-        #-------- code ---------
-        #-----------------------
-        x=99
-        self.publishme()
-
-doc = Basic(docpath='.')
-doc.doit()</code></pre>
-<h4 id="Requirements">Requirements<a class="anchor-link" href="#Requirements">&#182;</a></h4><p>This shows the basic requirements for a function with this capability:</p>
+<h4 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h4><p>The following shows a Jupyter cell execution:</p>
+<div class="jupydoc_fig"> <a href="images/basic_test_fig_01.png">  <figure>    <img src="images/basic_test_fig_01.png"         alt="Image basic_test_fig_01.png at images/basic_test_fig_01.png">
+  <figcaption><b>Figure 1</b>. </figcaption></figure></a></div><h4 id="Requirements">Requirements<a class="anchor-link" href="#Requirements">&#182;</a></h4><p>This shows the basic requirements for a function with this capability:</p>
 <ol>
 <li>Is a member of a class inheriting from  <code>jupydoc.Publisher</code> </li>
-<li>Has a <em>docstring</em>, comment text which will be interpreted as JUpyter-style markdown, and which
+<li>Has a <em>docstring</em>, comment text which will be interpreted as Jupyter-style markdown, and which
 may contain  variable  names in curly-brackets, </li>
 <li>Has executable code, presumably creating variables, the values of which will shown in the
 output.</li>
@@ -13309,23 +13293,23 @@ Jupyter-style markdown can contain LaTex expressions. For the following, unlike 
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><h3 id="images">3.4 Images </h3>
-Images be inserted into the docucument, as follows: 
+Images may be inserted into the docucument, as follows: 
 Using the jupydoc function <samp>image</samp>, set a variable with
 a call `self.image(filename)':</p>
 
-<pre><code>launch_image = self.image( 'fermi-launch.jpg',
+<pre><code>launch_image = self.image( 'images/fermi-launch.jpg',
         caption='launch of Fermi on a Delta II on June 11, 2008", width=300)</code></pre>
 <p>referred to in this text as "{launch_image}", will produce this:</p>
-<div class="jupydoc_fig"> <a href="images/fermi-launch_fig_01.jpg">  <figure>    <img src="images/fermi-launch_fig_01.jpg"  width=300       alt="Image fermi-launch_fig_01.jpg at images/fermi-launch_fig_01.jpg">
-  <figcaption><b>Figure 1</b>. launch of $Fermi$ (n&eacute;e GLAST) on a Delta II on June 11, 2008</figcaption></figure></a></div><p>This uses the <a href="https://www.w3schools.com/tags/tag_figure.asp">HTML5 <code>figure</code> tag</a>,
+<div class="jupydoc_fig"> <a href="images/fermi-launch_fig_02.jpg">  <figure>    <img src="images/fermi-launch_fig_02.jpg"  width=300       alt="Image fermi-launch_fig_02.jpg at images/fermi-launch_fig_02.jpg">
+  <figcaption><b>Figure 2</b>. launch of $Fermi$ (n&eacute;e GLAST) on a Delta II on June 11, 2008</figcaption></figure></a></div><p>This uses the <a href="https://www.w3schools.com/tags/tag_figure.asp">HTML5 <code>figure</code> tag</a>,
 which manages a caption. One can also set the width or height, 
 see the discussion on the 
 <a href="https://www.w3schools.com/tags/tag_img.asp">HTML <code>img</code> tag</a>.</p>
-<p>The full path for the name is relative to the source file, except this 
-class specified</p>
+<p>The full path for the name if not absolute, is relative to the source file. 
+Unless the image is already in the subfolder <code>images</code> as is the case here, it will be copied there, with an appended <code>fig_xx</code>.</p>
+<p>An option is to specify an <code>image_folder</code> in the class constructor, for example</p>
 
-<pre><code>self.image_folder = os.path.join(self.path, '$HOME/images')</code></pre>
-<p>in its otherwise optional class <code>__init__</code> function.</p>
+<pre><code>self.image_folder =  '$HOME/images'</code></pre>
 
 </div>
 </div>
@@ -13345,7 +13329,7 @@ ax.set(xlabel='$x$', ylabel='$x^2$', title=f'figure {fig1.number}')
 fig1.caption='''Caption for Fig. {fig1.number}, which
         shows $x^2$ vs. $x$.'''</code></pre>
 <p>produces:</p>
-<div class="jupydoc_fig"><a href="figs/fig_02.png"<figure>   <img src="figs/fig_02.png" alt="Figure 2 at figs/fig_02.png" > <figcaption><b>Figure 2</b>. Caption for Fig. 2, which
+<div class="jupydoc_fig"><a href="figs/fig_03.png"<figure>   <img src="figs/fig_03.png" alt="Figure 3 at figs/fig_03.png" > <figcaption><b>Figure 3</b>. Caption for Fig. 3, which
                 shows $x^2$ vs. $x$.    
             </figcaption></figure></a></div><p>Note the convenience of defining a caption by adding the text as an attribute of
 the Figure object.<br>
@@ -13498,8 +13482,9 @@ sections: introduction
         variable_formatting [scalars list_and_dict latex images 
                             figures dataframes other_formatting_options]
         making_a_document [ class_docstring document_generation output_specification]
-        multiple_documents [docman_setup  docman_usage docman_web]</code></pre>
-<p>Commas and line breaks are ignored, and subsection names enclosed in square brakets following the section name.</p>
+        multiple_documents [docman_setup  docman_usage docman_web index_document]
+        workflow</code></pre>
+<p>Commas and line breaks are ignored, with subsection names enclosed in square brakets following the section name.</p>
 <p>Any unrecognized fields are added to attributes of the class, available for
 user configuration perhaps. For this, it is 
 <code>user_info</code>: "This is available to user."</p>
@@ -13629,8 +13614,9 @@ the date and title.</li>
 </ul>
 <p>When the indexer is invoked, it updates both files.</p>
 <p>Here is what the index looks like:</p>
-<div class="jupydoc_fig"> <a href="images/jupydoc-index_fig_03.png">  <figure>    <img src="images/jupydoc-index_fig_03.png"         alt="Image jupydoc-index_fig_03.png at images/jupydoc-index_fig_03.png">
-  <figcaption><b>Figure 3</b>. </figcaption></figure></a></div><h4>Linked documents&mdash;client-mode</h4>
+<div class="jupydoc_fig"> <a href="images/jupydoc-index_fig_04.png">  <figure>    <img src="images/jupydoc-index_fig_04.png"         alt="Image jupydoc-index_fig_04.png at images/jupydoc-index_fig_04.png">
+  <figcaption><b>Figure 4</b>. Appearence of index.html in a browser</figcaption></figure></a></div><p>It is described in the next subsection.</p>
+<h4>Linked documents&mdash;client-mode</h4>
 <p>One can insert links to other documents saved by <code>DocMan</code>. This is especially useful in an 
 analysis mode where the linked document was generated in conjunction with a previous 
 analysis stage, perhaps preparing a dataset, available as attributes of the object.</p>
@@ -13652,23 +13638,28 @@ the other document object itself.</p>
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><h3 id="index_document">5.4 Index Document </h3>
-The index.html file that is managed by default can be enhanced with a special document named "Index".
-If such a class is found in the module, it will be invoked after any other document is saved.
-The only difference is that it will be saved in the root folder.</p>
-<p>The easiest use is to inherit from jupydoc.Docindex, and supply the title, abstract, and possibly author fields in the yaml class docstring.</p>
+The folder containing the documents is indexed by a file index.html containing a table of links to the documents.
+It is actually a document itself, created by a class called "Index". There are two ways for the user to adjust its
+appearance:</p>
+<ol>
+<li>The presence of an "Index" declaration in the <code>__init__.py</code> file. It should be a yaml text string which declares
+"title" and "abastract", and optionally "author". </li>
+</ol>
 
-<pre><code>from jupydoc import DocIndex
+<pre><code>
+Index=\
+'''
 
-__docs__ = ['Index']
+title:  A collection of documents
 
-class Index(DocIndex):
-    '''
-    title:  A collection of documents
-
-    abstract: |
-        These are the documents relevant to an important study.
-    '''</code></pre>
-<p>This will call the <code>title_page</code> function of <code>DocIndex</code>, which includes a table for the index.</p>
+abstract: |
+    These are the documents relevant to an important study.
+'''</code></pre>
+<ol>
+<li>The presence of an "Index" document class.</li>
+</ol>
+<p>It one of the documents is named "Index", and "Index" is not an attribute of <code>__init__.py</code>, then that document will be used to 
+create the <code>index.html</code> file.</p>
 <p style="text-align: right;"><a href="#top">top</a></p>
 </div>
 </div>
@@ -13695,18 +13686,16 @@ this file.</p>
 optionally terminate.
 This is part of a realization that my early focus on this as a document-creation
 project needs to account for the more research-oriented <em>analysis</em>, where sections
-represent stages&mdash;so a failure of any stage should interrupt the process.
-#### 06/24/2020
-Start on the idea of making a doc class a client: quietly perform some task with link to
-as associated document. 
-Also allow a <em>version</em> of a document, with a compound name, classname.version
-#### 07/04/2020
-Implement <code>&lt;detais&gt;' for</code>monospace<code>output, including the functions</code>shell<code>and</code>capture_print`.
-#### 07/15/2020
-Realize that I want it to be easy for a document to be a simple note, appropriate for a sidebar.
-To do this, I define a "title_page" function, with no sections. Maybe a separate class Memo?<p style="text-align: right;"><a href="#top">top</a></p></li>
+represent stages&mdash;so a failure of any stage should interrupt the process.</li>
 </ul>
-
+<h4 id="06/24/2020">06/24/2020<a class="anchor-link" href="#06/24/2020">&#182;</a></h4><p>Start on the idea of making a doc class a client: quietly perform some task with link to
+as associated document. 
+Also allow a <em>version</em> of a document, with a compound name, classname.version</p>
+<h4 id="07/04/2020">07/04/2020<a class="anchor-link" href="#07/04/2020">&#182;</a></h4><p>Implement <code>&lt;detais&gt;' for</code>monospace<code>output, including the functions</code>shell<code>and</code>capture_print`.</p>
+<h4 id="07/15/2020">07/15/2020<a class="anchor-link" href="#07/15/2020">&#182;</a></h4><p>Realize that I want it to be easy for a document to be a simple note, appropriate for a sidebar.
+To do this, I define a "title_page" function, with no sections. Maybe a separate class Memo?</p>
+<h4 id="11/17/2020">11/17/2020<a class="anchor-link" href="#11/17/2020">&#182;</a></h4><p>Implement the "Index" capability using a document called <code>Index</code>.</p>
+<p style="text-align: right;"><a href="#top">top</a></p>
 </div>
 </div>
 </div>
@@ -13714,7 +13703,7 @@ To do this, I define a "title_page" function, with no sections. Maybe a separate
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><hr class="thick">
-Document "Manual",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jupydoc/documents.py</samp>, created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a> on 2020-11-14 11:01<br>Saved to <samp>/mnt/c/Users/thbur/OneDrive/work/tburnett.github.io/Manual</samp></p>
+Document Manual,  From module <samp>jupydoc.documents.py</samp>, created using <a href="http://github.com/tburnett/jupydoc">jupydoc</a> on 2020-11-17 11:41<br>Saved to <samp>/mnt/c/Users/thbur/OneDrive/work/tburnett.github.io/Manual</samp></p>
 
 </div>
 </div>
@@ -13747,7 +13736,7 @@ Document "Manual",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jup
     """ 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.image_folder = '$HOME/images'
+        # self.image_folder = '$HOME/images'
 
     def introduction(self):
         """Introduction
@@ -13836,31 +13825,16 @@ Document "Manual",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jup
         It can be implemented as this, which can be used to test the options in the next section.
 
         #### Example
-        The following is in a Jupyter notebook cell:
-        ```
-        from jupydoc import Publisher
+        The following shows a Jupyter cell execution:
 
-        class Basic(Publisher):
+        {basic}
 
-            def doit(self):
-                """This is the output from a minimal example
-
-                The value of $x$ is {x}, but {2*x} is not recognized.
-                """
-                #-------- code ---------
-                #-----------------------
-                x=99
-                self.publishme()
-
-        doc = Basic(docpath='.')
-        doc.doit()
-        ```
 
         #### Requirements
         This shows the basic requirements for a function with this capability:
 
         1. Is a member of a class inheriting from  `jupydoc.Publisher` 
-        1. Has a *docstring*, comment text which will be interpreted as JUpyter-style markdown, and which
+        1. Has a *docstring*, comment text which will be interpreted as Jupyter-style markdown, and which
          may contain  variable  names in curly-brackets, 
         2. Has executable code, presumably creating variables, the values of which will shown in the
         output.
@@ -13900,7 +13874,7 @@ Document "Manual",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jup
         description.
 
         '''
-
+        basic = self.image('images/basic_test.png')
         self.publishme()
 
     def variable_formatting(self):
@@ -13953,11 +13927,11 @@ Document "Manual",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jup
     def images(self):
         """Images
 
-        Images be inserted into the docucument, as follows: 
+        Images may be inserted into the docucument, as follows: 
         Using the jupydoc function <samp>image</samp>, set a variable with
         a call `self.image(filename)':
         ```
-        launch_image = self.image( 'fermi-launch.jpg',
+        launch_image = self.image( 'images/fermi-launch.jpg',
                 caption='launch of Fermi on a Delta II on June 11, 2008", width=300)
         ```
 
@@ -13970,15 +13944,18 @@ Document "Manual",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jup
         see the discussion on the 
         [HTML `img` tag](https://www.w3schools.com/tags/tag_img.asp).
 
-        The full path for the name is relative to the source file, except this 
-        class specified 
+        The full path for the name if not absolute, is relative to the source file. 
+        Unless the image is already in the subfolder `images` as is the case here, it will be copied there, with an appended `fig_xx`. 
+
+        An option is to specify an `image_folder` in the class constructor, for example
+
         ```
-        self.image_folder = os.path.join(self.path, '$HOME/images')
+        self.image_folder =  '$HOME/images'
         ``` 
-        in its otherwise optional class `__init__` function.
+
         """
 
-        launch_image = self.image( 'fermi-launch.jpg',
+        launch_image = self.image( 'images/fermi-launch.jpg',
                 caption='launch of $Fermi$ (n&eacute;e GLAST) on a Delta II on June 11, 2008', width=300)
         self.publishme()
 
@@ -14191,10 +14168,11 @@ Document "Manual",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jup
                 variable_formatting [scalars list_and_dict latex images 
                                     figures dataframes other_formatting_options]
                 making_a_document [ class_docstring document_generation output_specification]
-                multiple_documents [docman_setup  docman_usage docman_web]
+                multiple_documents [docman_setup  docman_usage docman_web index_document]
+                workflow
 
         ```
-        Commas and line breaks are ignored, and subsection names enclosed in square brakets following the section name.
+        Commas and line breaks are ignored, with subsection names enclosed in square brakets following the section name.
 
         Any unrecognized fields are added to attributes of the class, available for
         user configuration perhaps. For this, it is 
@@ -14337,6 +14315,7 @@ Document "Manual",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jup
         Here is what the index looks like:
 
         {index_image}
+        It is described in the next subsection.
 
         #### Linked documents&mdash;client-mode
 
@@ -14361,7 +14340,7 @@ Document "Manual",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jup
 
         """
         #--------------------------------------------------------------------
-        index_image = self.image("jupydoc-index.png", caption='')
+        index_image = self.image("images/jupydoc-index.png", caption='Appearence of index.html in a browser')
         otherdoc, link = self.docman.client('Technicals')
         self.publishme()
 
@@ -14393,15 +14372,20 @@ Document "Manual",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jup
         This is part of a realization that my early focus on this as a document-creation
         project needs to account for the more research-oriented *analysis*, where sections
         represent stages&mdash;so a failure of any stage should interrupt the process.
+
         #### 06/24/2020
         Start on the idea of making a doc class a client: quietly perform some task with link to
         as associated document. 
         Also allow a _version_ of a document, with a compound name, classname.version
+
         #### 07/04/2020
         Implement `<detais>' for `monospace` output, including the functions `shell` and `capture_print`.
         #### 07/15/2020
         Realize that I want it to be easy for a document to be a simple note, appropriate for a sidebar.
         To do this, I define a "title_page" function, with no sections. Maybe a separate class Memo?
+
+        #### 11/17/2020
+        Implement the "Index" capability using a document called `Index`.
         """
         #----------------------------------
         self.publishme()
@@ -14409,26 +14393,29 @@ Document "Manual",  From file <samp>/mnt/c/Users/thbur/OneDrive/work/jupydoc/jup
     def index_document(self):
         """Index Document
 
-        The index.html file that is managed by default can be enhanced with a special document named "Index".
-        If such a class is found in the module, it will be invoked after any other document is saved.
-        The only difference is that it will be saved in the root folder. 
-
-        The easiest use is to inherit from jupydoc.Docindex, and supply the title, abstract, and possibly author fields in the yaml class docstring.
+        The folder containing the documents is indexed by a file index.html containing a table of links to the documents.
+        It is actually a document itself, created by a class called "Index". There are two ways for the user to adjust its
+        appearance: 
+        1. The presence of an "Index" declaration in the `__init__.py` file. It should be a yaml text string which declares
+        "title" and "abastract", and optionally "author". 
 
         ```
-        from jupydoc import DocIndex
 
-        __docs__ = ['Index']
+        Index=\\
+        '''
 
-        class Index(DocIndex):
-            '''
-            title:  A collection of documents
+        title:  A collection of documents
 
-            abstract: |
-                These are the documents relevant to an important study.
-            '''
+        abstract: |
+            These are the documents relevant to an important study.
+        '''
         ```
-        This will call the `title_page` function of `DocIndex`, which includes a table for the index. 
+
+        2. The presence of an "Index" document class.
+
+        It one of the documents is named "Index", and "Index" is not an attribute of `__init__.py`, then that document will be used to 
+        create the `index.html` file. 
+
         """
         self.publishme()
 </pre></details>
